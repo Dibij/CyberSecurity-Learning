@@ -1,0 +1,50 @@
+{
+  "harper:harper-apply-suggestion-1": [
+    {
+      "modifiers": [
+        "Mod"
+      ],
+      "key": "Numpad1"
+    }
+  ],
+  "harper:harper-apply-suggestion-2": [
+    {
+      "modifiers": [
+        "Mod"
+      ],
+      "key": "Numpad4"
+    }
+  ],
+  "harper:harper-apply-suggestion-3": [
+    {
+      "modifiers": [
+        "Mod"
+      ],
+      "key": "Numpad7"
+    }
+  ],
+  "harper:harper-jump-to-next-suggestion": [
+    {
+      "modifiers": [
+        "Mod"
+      ],
+      "key": "ArrowRight"
+    }
+  ],
+  "harper:harper-jump-to-previous-suggestion": [
+    {
+      "modifiers": [
+        "Mod"
+      ],
+      "key": "ArrowLeft"
+    }
+  ],
+  "harper:harper-toggle-auto-lint": [
+    {
+      "modifiers": [
+        "Mod"
+      ],
+      "key": "."
+    }
+  ]
+}

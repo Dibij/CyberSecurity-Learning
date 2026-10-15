@@ -43,12 +43,31 @@ Not started
 **Next action:**
 Set up the learning journal.
 
-## Quick Links
+## Current Focus
+
+**Active track:** Linux fundamentals through OverTheWire Bandit
+
+**Current position:** Ready to start Bandit Level 8.
+
+**Next action:** Continue the next Bandit challenge.
+
+## Recent Sessions
+
+- [[2026-10-15 - Cybersecurity Learning Session]]
+
+## Fundamentals
+
 - [[Linux Fundamentals]]
 - [[Networking Fundamentals]]
+- [[DNS]]
 - [[HTTP Fundamentals]]
+
+## Tools and Practice
+
+- [[Over The Wire]]
 - [[Lab Tracker]]
+
+## Learning Progress
+
+- [[Learning Roadmap]]
 - [[Starting Point]]
-- [[Template]]
-- [[Roadmap]]
-- 

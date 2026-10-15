@@ -1,7 +1,14 @@
+# OS junk
 .DS_Store
 Thumbs.db
+
+# Editor swap files
 *.swp
 *.swo
-.obsidian/workspace.json
-.obsidian/workspace-mobile.json
+
+# Obsidian local config and trash
 .obsidian/
+.trash/
+
+# Local-only secrets (Bandit passwords)
+03 - Tools/note_file_OTW.md

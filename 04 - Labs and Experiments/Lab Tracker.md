@@ -1,7 +1,5 @@
-# Lab Tracker
-
-| Exercise           | Topic        | Status      | Independent? | Notes |
-| ------------------ | ------------ | ----------- | ------------ | ----- |
-| Bandit Level 0     | Linux / SSH  | Not started | No           |       |
-| HTTP fundamentals  | Web          | Not started | No           |       |
-| First security lab | Web security | Not started | No           |       |
+| Exercise                              | Topic        | Status      | Independent?                                 | Notes                                                                                     |
+| ------------------------------------- | ------------ | ----------- | -------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| [[Over The Wire]] — Bandit Levels 0–8 | Linux / SSH  | In progress | Mostly; consulted Google for some challenges | Practised file searching, filename handling, file types, permissions, and text searching. |
+| HTTP fundamentals                     | Web          | Not started | No                                           |                                                                                           |
+| First security lab                    | Web security | Not started | No                                           |                                                                                           |

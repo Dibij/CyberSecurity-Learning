@@ -10,5 +10,10 @@ Thumbs.db
 .obsidian/
 .trash/
 
-# Local-only secrets (Bandit passwords)
+# Local-only secrets & credentials
+.secrets/
+*passwords*
+*.secret
+*.key
+.env
 03 - Tools/note_file_OTW.md

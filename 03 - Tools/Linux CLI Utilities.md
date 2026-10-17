@@ -199,16 +199,123 @@ scp -P 2220 bandit13@bandit.labs.overthewire.org:/remote/path/my_key /local/dest
 
 ---
 
-## 6. Network Connections & Sockets
+## 6. Network Connections & Raw Sockets (Unencrypted)
 
 ### `nc` (Netcat) — Arbitrary TCP and UDP Connections
-Netcat allows you to manually open up a pipe to send and receive data across a network connection.
+Netcat allows you to manually open up a raw socket pipe to send and receive data across a network connection.
 
 ```bash
 # Connect to a TCP port:
 nc localhost 30000
 
-# Connect and send data directly:
-echo "password" | nc localhost 30000
+# Send data and pipe output:
+echo "current_password" | nc localhost 30000
+
+# Listen on a port (create a server listener):
+nc -lvnp 4444
 ```
+
+### `ncat` — Modern Netcat (from Nmap project)
+An improved implementation of Netcat that includes built-in support for SSL/TLS, access control, and proxies.
+
+```bash
+# Connect to a plain TCP port:
+ncat localhost 30000
+
+# Connect to an SSL/TLS encrypted port:
+ncat --ssl localhost 30001
+
+# Listen with SSL:
+ncat -lvnp 4444 --ssl
+```
+
+### `telnet` — Basic Interactive TCP Connection
+An unencrypted protocol and diagnostic tool often used to test if a TCP port is open and accepting text input.
+
+```bash
+# Connect to host on port:
+telnet localhost 30000
+
+# To exit telnet: press Ctrl + ] then type 'quit'
+```
+
+### `socat` — Multipurpose Bidirectional Relay (Socket Cat)
+Establishes two bidirectional byte streams and transfers data between them. Very powerful for port forwarding, raw sockets, and encrypted tunnels.
+
+```bash
+# Connect standard I/O to a TCP port (like netcat):
+socat - TCP:localhost:30000
+
+# Connect standard I/O to an SSL/TLS encrypted port:
+socat - OPENSSL:localhost:30001,verify=0
+```
+
+---
+
+## 7. Encrypted Connections (SSL / TLS)
+
+### `openssl s_client` — Generic SSL/TLS Client
+Connects to any remote service running over SSL/TLS (like HTTPS, SMTPS, or custom encrypted wargame ports).
+
+```bash
+# Connect to an SSL/TLS port (interactive):
+openssl s_client -connect localhost:30001
+
+# Connect quietly without printing the full certificate chain:
+openssl s_client -quiet -connect localhost:30001
+
+# Send password directly into an SSL port:
+echo "current_password" | openssl s_client -quiet -connect localhost:30001
+```
+
+---
+
+## 8. Port Scanning & Socket Inspection
+
+### `ss` — Socket Statistics (Modern replacement for `netstat`)
+Dumps socket statistics directly from the Linux kernel. Faster and more detailed than `netstat`.
+
+```bash
+# Show listening TCP sockets with process names and port numbers:
+ss -tlpn
+
+# Show listening TCP and UDP sockets:
+ss -tulpn
+
+# Common Flags:
+# -t : TCP sockets
+# -u : UDP sockets
+# -l : Listening sockets only
+# -p : Show process using the socket (requires sudo/permissions)
+# -n : Numeric output (show 30000 instead of service names)
+```
+
+### `netstat` — Network Statistics (Classic utility)
+Legacy command for inspecting network connections, routing tables, and interface statistics.
+
+```bash
+# Show listening TCP ports with process and numeric addresses:
+netstat -tlpn
+
+# Show all active listening and established connections:
+netstat -tuna
+```
+
+### `nmap` — Network Mapper & Port Scanner
+Scans target hosts or localhost to identify open ports, active services, and OS fingerprints.
+
+```bash
+# Scan a specific port range on localhost:
+nmap -p 31000-32000 localhost
+
+# Scan all 65,535 ports:
+nmap -p- localhost
+
+# Service version detection on open ports:
+nmap -sV -p 31000-32000 localhost
+
+# Scan open ports quietly with fast timing (-T4):
+nmap -T4 -p 31000-32000 localhost
+```
+
 

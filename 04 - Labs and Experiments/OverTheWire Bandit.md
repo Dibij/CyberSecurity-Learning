@@ -3,7 +3,7 @@ title: "OverTheWire: Bandit Walkthrough"
 type: lab-writeup
 platform: OverTheWire
 status: in-progress
-current_level: 14
+current_level: 15
 tags:
   - lab
   - wargame
@@ -785,13 +785,47 @@ Now to get the password
 
 Useful commands to investigate: `nc` (netcat), `ncat`, `telnet`, `openssl`, `s_client`.
 
+Ok so, initial assumptions.
+I have to send the password used to get into this level to port 30000 on localhost, so immediately i thought of nc and ran this command
+`bandit14@bandit:~$ nc localhost 30000`
+But its stuck at this 
+maybe, i need to send something, letme send a random piece of text:
+```
+bandit14@bandit:~$ echo "abcd" | nc localhost 30000
+Wrong! Please enter the correct current password.
+bandit14@bandit:~$ 
+```
+
+So i am thinking in correct way. Let me just give up the password like this.
+```
+bandit14@bandit:~$ echo "pwd here" | nc localhost 30000
+Correct!
+new pwd
+```
+Well, i got it right, moving onto next step.
+
+> [!tip] Quick Solution
+> Submit the current level's password directly to the listening service:
+> ```bash
+> echo "<bandit14_password>" | nc localhost 30000
+> ```
+
+---
+
+## **Level 16**
+>The password for the next level can be retrieved by submitting the password of the current level to **port 30001 on localhost** using SSL/TLS encryption.
+>**Helpful note: Getting “DONE”, “RENEGOTIATING” or “KEYUPDATE”? Read the “CONNECTED COMMANDS” section in the manpage.**
+
+This is about to be very hard, i can just tell. Letme pickthis up in an hour
+Well why did i think that? this should be easy 
+
 ---
 
 ## Current Position
 
-**Last completed:** Bandit Level 14 objective.
+**Last completed:** Bandit Level 15 objective.
 
-**Next:** Connect to localhost port 30000, send the Bandit 14 password, and retrieve the Bandit 15 password.
+**Next:** Connect to localhost port 30001 with SSL/TLS encryption (using `openssl s_client -connect localhost:30001` or `ncat --ssl localhost 30001`), submit the Level 15 password, and retrieve the Level 16 password.
 
 **Learning approach:** Attempt each challenge independently before consulting walkthroughs.
 

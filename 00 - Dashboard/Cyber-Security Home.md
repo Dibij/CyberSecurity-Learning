@@ -12,8 +12,8 @@ type: dashboard
 ## Current Focus & Status
 
 - **Active Tracks:** OverTheWire Bandit + Networking (DNS) + upcoming TryHackMe
-- **Current Position:** Bandit Level 14 solved (Ready for Level 15); DNS cache & latency mechanics investigated
-- **Next Action:** Log into Bandit as `bandit14` -> submit password to port 30000 on localhost via netcat
+- **Current Position:** Bandit Level 15 solved (Ready for Level 16); DNS cache & latency mechanics investigated
+- **Next Action:** Log into Bandit as `bandit15` -> submit password to SSL/TLS port 30001 on localhost via `openssl s_client`
 - **Credentials:** Securely kept in [[Bandit Passwords]] (local-only / Git-ignored)
 
 ---
@@ -21,9 +21,9 @@ type: dashboard
 ## Quick Navigation
 
 ### 🧪 Labs & Practice
-- [[OverTheWire Bandit]] — Full level-by-level walkthrough (Levels 0–14+)
+- [[OverTheWire Bandit]] — Full level-by-level walkthrough (Levels 0–15+)
 - [[Lab Tracker]] — High-level progress tracker across all platforms
-- [[Linux CLI Utilities]] — Quick reference for `grep`, `sort`, `uniq`, `tar`, `xxd`, `ssh`, `scp`, `nc`
+- [[Linux CLI Utilities]] — Quick reference for `grep`, `tar`, `xxd`, `ssh`, `scp`, `nc`, `ncat`, `openssl`, `ss`, `nmap`
 
 ### 📚 Fundamentals
 - [[Linux Fundamentals]] — Streams, I/O redirection, piping, and command chaining

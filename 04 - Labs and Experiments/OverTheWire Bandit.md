@@ -3,7 +3,7 @@ title: "OverTheWire: Bandit Walkthrough"
 type: lab-writeup
 platform: OverTheWire
 status: in-progress
-current_level: 15
+current_level: 21
 tags:
   - lab
   - wargame
@@ -818,18 +818,646 @@ Well, i got it right, moving onto next step.
 
 This is about to be very hard, i can just tell. Letme pickthis up in an hour
 Well why did i think that? this should be easy 
+Well i have added / learned about a few new linux commands, one of them is openssl, which is used for cryptography. So here it is 
+but it just gave this 
+```bash
+bandit15@bandit:~$ openssl s_client -connect localhost:30001
+Connecting to 127.0.0.1
+CONNECTED(00000003)
+Can't use SSL_get_servername
+depth=0 CN=SnakeOil
+verify error:num=18:self-signed certificate
+verify return:1
+depth=0 CN=SnakeOil
+verify return:1
+---
+Certificate chain
+ 0 s:CN=SnakeOil
+   i:CN=SnakeOil
+   a:PKEY: RSA, 4096 (bit); sigalg: sha256WithRSAEncryption
+   v:NotBefore: Jun 10 03:59:50 2024 GMT; NotAfter: Jun  8 03:59:50 2034 GMT
+---
+Server certificate
+-----BEGIN CERTIFICATE-----
+MIIFBzCCAu+gAwIBAgIUBLz7DBxA0IfojaL/WaJzE6Sbz7cwDQYJKoZIhvcNAQEL
+BQAwEzERMA8GA1UEAwwIU25ha2VPaWwwHhcNMjQwNjEwMDM1OTUwWhcNMzQwNjA4
+MDM1OTUwWjATMREwDwYDVQQDDAhTbmFrZU9pbDCCAiIwDQYJKoZIhvcNAQEBBQAD
+ggIPADCCAgoCggIBANI+P5QXm9Bj21FIPsQqbqZRb5XmSZZJYaam7EIJ16Fxedf+
+jXAv4d/FVqiEM4BuSNsNMeBMx2Gq0lAfN33h+RMTjRoMb8yBsZsC063MLfXCk4p+
+09gtGP7BS6Iy5XdmfY/fPHvA3JDEScdlDDmd6Lsbdwhv93Q8M6POVO9sv4HuS4t/
+jEjr+NhE+Bjr/wDbyg7GL71BP1WPZpQnRE4OzoSrt5+bZVLvODWUFwinB0fLaGRk
+GmI0r5EUOUd7HpYyoIQbiNlePGfPpHRKnmdXTTEZEoxeWWAaM1VhPGqfrB/Pnca+
+vAJX7iBOb3kHinmfVOScsG/YAUR94wSELeY+UlEWJaELVUntrJ5HeRDiTChiVQ++
+wnnjNbepaW6shopybUF3XXfhIb4NvwLWpvoKFXVtcVjlOujF0snVvpE+MRT0wacy
+tHtjZs7Ao7GYxDz6H8AdBLKJW67uQon37a4MI260ADFMS+2vEAbNSFP+f6ii5mrB
+18cY64ZaF6oU8bjGK7BArDx56bRc3WFyuBIGWAFHEuB948BcshXY7baf5jjzPmgz
+mq1zdRthQB31MOM2ii6vuTkheAvKfFf+llH4M9SnES4NSF2hj9NnHga9V08wfhYc
+x0W6qu+S8HUdVF+V23yTvUNgz4Q+UoGs4sHSDEsIBFqNvInnpUmtNgcR2L5PAgMB
+AAGjUzBRMB0GA1UdDgQWBBTPo8kfze4P9EgxNuyk7+xDGFtAYzAfBgNVHSMEGDAW
+gBTPo8kfze4P9EgxNuyk7+xDGFtAYzAPBgNVHRMBAf8EBTADAQH/MA0GCSqGSIb3
+DQEBCwUAA4ICAQAKHomtmcGqyiLnhziLe97Mq2+Sul5QgYVwfx/KYOXxv2T8ZmcR
+Ae9XFhZT4jsAOUDK1OXx9aZgDGJHJLNEVTe9zWv1ONFfNxEBxQgP7hhmDBWdtj6d
+taqEW/Jp06X+08BtnYK9NZsvDg2YRcvOHConeMjwvEL7tQK0m+GVyQfLYg6jnrhx
+egH+abucTKxabFcWSE+Vk0uJYMqcbXvB4WNKz9vj4V5Hn7/DN4xIjFko+nREw6Oa
+/AUFjNnO/FPjap+d68H1LdzMH3PSs+yjGid+6Zx9FCnt9qZydW13Miqg3nDnODXw
++Z682mQFjVlGPCA5ZOQbyMKY4tNazG2n8qy2famQT3+jF8Lb6a4NGbnpeWnLMkIu
+jWLWIkA9MlbdNXuajiPNVyYIK9gdoBzbfaKwoOfSsLxEqlf8rio1GGcEV5Hlz5S2
+txwI0xdW9MWeGWoiLbZSbRJH4TIBFFtoBG0LoEJi0C+UPwS8CDngJB4TyrZqEld3
+rH87W+Et1t/Nepoc/Eoaux9PFp5VPXP+qwQGmhir/hv7OsgBhrkYuhkjxZ8+1uk7
+tUWC/XM0mpLoxsq6vVl3AJaJe1ivdA9xLytsuG4iv02Juc593HXYR8yOpow0Eq2T
+U5EyeuFg5RXYwAPi7ykw1PW7zAPL4MlonEVz+QXOSx6eyhimp1VZC11SCg==
+-----END CERTIFICATE-----
+subject=CN=SnakeOil
+issuer=CN=SnakeOil
+---
+No client certificate CA names sent
+Peer signing digest: SHA256
+Peer signature type: rsa_pss_rsae_sha256
+Negotiated TLS1.3 group: X25519MLKEM768
+---
+SSL handshake has read 3191 bytes and written 1613 bytes
+Verification error: self-signed certificate
+---
+New, TLSv1.3, Cipher is TLS_AES_256_GCM_SHA384
+Protocol: TLSv1.3
+Server public key is 4096 bit
+This TLS version forbids renegotiation.
+Compression: NONE
+Expansion: NONE
+No ALPN negotiated
+Early data was not sent
+Verify return code: 18 (self-signed certificate)
+---
+---
+Post-Handshake New Session Ticket arrived:
+SSL-Session:
+    Protocol  : TLSv1.3
+    Cipher    : TLS_AES_256_GCM_SHA384
+    Session-ID: 634AD1BF45ADBF37DAE81A9E86E4AF4A2AA42BD00E23313EBC49DFBB6C6888FE
+    Session-ID-ctx: 
+    Resumption PSK: 1C98C416D58CFEC1E7A6E139BC90E918A013DF67CA3A5DF2692DF9D7BDEDFCEB2B892BB27E942420B1185131456504DC
+    PSK identity: None
+    PSK identity hint: None
+    SRP username: None
+    TLS session ticket lifetime hint: 300 (seconds)
+    TLS session ticket:
+    0000 - 46 03 cc 60 f0 94 d8 7b-1c d0 33 0c d4 b5 83 9e   F..`...{..3.....
+    0010 - 03 a5 e7 b8 1d ef 73 33-65 d7 f9 71 00 26 ab db   ......s3e..q.&..
+    0020 - b3 60 a3 8d 1b 4b 01 1a-10 26 bd 61 7d d6 03 73   .`...K...&.a}..s
+    0030 - 60 ac f0 02 8a 7f 72 32-86 95 0f 28 9f 9c 54 38   `.....r2...(..T8
+    0040 - f6 49 0d 2a df 40 d7 38-56 6a 40 47 e9 bd a2 71   .I.*.@.8Vj@G...q
+    0050 - b9 4a ed 6a fb 68 c5 f5-7b 5c f3 40 ca a5 ee 92   .J.j.h..{\.@....
+    0060 - fc c6 66 45 0f 76 27 20-f0 e6 b8 18 7b 9b 9b d8   ..fE.v' ....{...
+    0070 - 77 37 1a 30 a1 f4 49 07-43 62 6e 82 05 62 8b 6e   w7.0..I.Cbn..b.n
+    0080 - 17 78 b0 4b e3 e1 5c ab-0d 0b 1a d2 e2 84 2c df   .x.K..\.......,.
+    0090 - 0a aa ed 78 a7 eb 38 52-e6 d9 63 56 04 fb 8d cc   ...x..8R..cV....
+    00a0 - 67 7b 2a 46 a1 ed 42 c6-04 a5 cb fc 82 b8 4d 26   g{*F..B.......M&
+    00b0 - 6b b3 5a fb 38 53 97 ec-9b 80 cd 1e c7 98 80 f7   k.Z.8S..........
+    00c0 - 2a 46 a1 60 c5 6d 6e bf-f9 4b 83 eb d8 12 61 70   *F.`.mn..K....ap
+    00d0 - 94 63 af c4 df 91 79 2c-42 de 59 d3 c4 7a c8 56   .c....y,B.Y..z.V
+
+    Start Time: 1792253622
+    Timeout   : 7200 (sec)
+    Verify return code: 18 (self-signed certificate)
+    Extended master secret: no
+    Max Early Data: 0
+---
+read R BLOCK
+---
+Post-Handshake New Session Ticket arrived:
+SSL-Session:
+    Protocol  : TLSv1.3
+    Cipher    : TLS_AES_256_GCM_SHA384
+    Session-ID: D320CD792F99B52B2CE9040AA9CD2E59CF51C09227E949FBE20927561698A29C
+    Session-ID-ctx: 
+    Resumption PSK: 412A8596139CBBBD6B6813E8191F705A3D1C5289A627B7F0A823A141AE6891192EFBB7AF4FE321234F9D47A5A57C0CA9
+    PSK identity: None
+    PSK identity hint: None
+    SRP username: None
+    TLS session ticket lifetime hint: 300 (seconds)
+    TLS session ticket:
+    0000 - 46 03 cc 60 f0 94 d8 7b-1c d0 33 0c d4 b5 83 9e   F..`...{..3.....
+    0010 - 30 e9 57 ae 89 dc de 3c-90 b9 64 a1 5b 80 c2 88   0.W....<..d.[...
+    0020 - 8d 55 60 e1 99 06 35 57-f5 e4 ce ed 34 1e 7a 12   .U`...5W....4.z.
+    0030 - 20 59 40 57 7f bc bf f3-1d 28 99 f1 5e 9a 67 bd    Y@W.....(..^.g.
+    0040 - 40 52 f3 0a 47 af df b3-e5 2d fa 53 e4 3f 30 9c   @R..G....-.S.?0.
+    0050 - 18 39 fc 90 1b 3f c9 ff-de 8a bd f7 04 39 82 9c   .9...?.......9..
+    0060 - 74 ff 9a ed 2d e0 57 85-b1 5a 60 62 c6 3d b2 74   t...-.W..Z`b.=.t
+    0070 - 93 e7 76 c8 23 62 84 fc-25 6f 45 59 56 09 b2 87   ..v.#b..%oEYV...
+    0080 - 1f 03 a6 b4 4c 66 ce 65-3f c9 40 f1 96 9e f4 94   ....Lf.e?.@.....
+    0090 - 07 ca db 37 d1 0b 46 8f-13 36 43 5d a6 7f 00 b7   ...7..F..6C]....
+    00a0 - f9 f7 11 4c 98 a5 63 8a-bc ff 61 97 a5 80 41 11   ...L..c...a...A.
+    00b0 - b3 71 ba 07 41 2a 30 3e-c9 05 fb a9 e6 3f ab 0c   .q..A*0>.....?..
+    00c0 - 47 84 50 8b 86 d0 e3 a2-7d c2 e1 f4 7e 14 87 2f   G.P.....}...~../
+    00d0 - 54 69 f9 41 2a 9a 7b c8-20 73 a7 e4 7f f7 eb 17   Ti.A*.{. s......
+
+    Start Time: 1792253622
+    Timeout   : 7200 (sec)
+    Verify return code: 18 (self-signed certificate)
+    Extended master secret: no
+    Max Early Data: 0
+---
+read R BLOCK
+old pwd here
+Correct!
+new pwd here 
+
+```
+so like this level is also complete ?
+
+> [!tip] Quick Solution
+> Connect with SSL/TLS and pipe in the password:
+> ```bash
+> echo "<bandit15_password>" | openssl s_client -quiet -connect localhost:30001
+> ```
+> The `-quiet` flag suppresses session details and stops it from waiting for stdin after the cert info.
+
+---
+## **Level 17**
+The credentials for the next level can be retrieved by submitting the password of the current level to **a port on localhost in the range 31000 to 32000**. First find out which of these ports have a server listening on them. Then find out which of those speak SSL/TLS and which don’t. There is only 1 server that will give the next credentials, the others will simply send back to you whatever you send to it.
+
+**Helpful note: Getting “DONE”, “RENEGOTIATING” or “KEYUPDATE”? Read the “CONNECTED COMMANDS” section in the manpage.**
+
+This should also not take too long. Lets think this through.
+We are obviously using *Piping* here, so first step of the piping should list all posrts from 31000 to 32000 thats a thousand ports. maybe this will be too huge? but apart from this, i see no way of doing it. so bruteforce it is. The second part should check which of these ports have a server listening on the, and those ports which have them should be passed to the last function which will know what is speaking ssl/TLS .
+So let me check how to actually check for if a port is listening in for a server or how it communicates 
+Maybe one single command can tell us all these details, and i dont have to use piping 
+well we didnot need to use piping commands
+i just ran a bunch of commands and one of them game me the correct port by happenstance
+```shell
+bandit16@bandit:~$ nmap -T4 -p 31000-32000 localhost
+Starting Nmap 7.98 ( https://nmap.org ) at 2026-10-17 16:26 +0000
+Nmap scan report for localhost (127.0.0.1)
+Host is up (0.00013s latency).
+Other addresses for localhost (not scanned): ::1
+Not shown: 996 closed tcp ports (conn-refused)
+PORT      STATE SERVICE
+31046/tcp open  unknown
+31518/tcp open  unknown
+31691/tcp open  unknown
+31790/tcp open  unknown
+31960/tcp open  unknown
+
+Nmap done: 1 IP address (1 host up) scanned in 0.09 seconds
+bandit16@bandit:~$ nmap  -p 31000-32000 localhost
+Starting Nmap 7.98 ( https://nmap.org ) at 2026-10-17 16:27 +0000
+Nmap scan report for localhost (127.0.0.1)
+Host is up (0.00013s latency).
+Other addresses for localhost (not scanned): ::1
+Not shown: 996 closed tcp ports (conn-refused)
+PORT      STATE SERVICE
+31046/tcp open  unknown
+31518/tcp open  unknown
+31691/tcp open  unknown
+31790/tcp open  unknown
+31960/tcp open  unknown
+
+Nmap done: 1 IP address (1 host up) scanned in 0.10 seconds
+bandit16@bandit:~$ netstat -tlpn
+(No info could be read for "-p": geteuid()=11016 but you should be root.)
+Active Internet connections (only servers)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name    
+netstat: no support for `AF INET (tcp)' on this system.
+tcp6       0      0 :::31960                :::*                    LISTEN      -                   
+tcp6       0      0 :::31691                :::*                    LISTEN      -                   
+tcp6       0      0 :::31046                :::*                    LISTEN      -                   
+tcp6       0      0 :::2223                 :::*                    LISTEN      -                   
+tcp6       0      0 :::2221                 :::*                    LISTEN      -                   
+tcp6       0      0 :::2220                 :::*                    LISTEN      -                   
+tcp6       0      0 :::2232                 :::*                    LISTEN      -                   
+tcp6       0      0 :::2227                 :::*                    LISTEN      -                   
+tcp6       0      0 :::2226                 :::*                    LISTEN      -                   
+tcp6       0      0 :::2225                 :::*                    LISTEN      -                   
+tcp6       0      0 :::2224                 :::*                    LISTEN      -                   
+tcp6       0      0 :::2231                 :::*                    LISTEN      -                   
+tcp6       0      0 :::2230                 :::*                    LISTEN      -                   
+tcp6       0      0 :::2228                 :::*                    LISTEN      -                   
+tcp6       0      0 :::22                   :::*                    LISTEN      -                   
+bandit16@bandit:~$ ss -tlpn
+State      Recv-Q      Send-Q            Local Address:Port             Peer Address:Port      Process      
+bandit16@bandit:~$ ss -tulpn
+Netid     State     Recv-Q     Send-Q         Local Address:Port          Peer Address:Port     Process     
+bandit16@bandit:~$ nmap -sV -p 31000-32000 localhost
+Starting Nmap 7.98 ( https://nmap.org ) at 2026-10-17 16:30 +0000
+Nmap scan report for localhost (127.0.0.1)
+Host is up (0.00014s latency).
+Other addresses for localhost (not scanned): ::1
+Not shown: 996 closed tcp ports (conn-refused)
+PORT      STATE SERVICE     VERSION
+31046/tcp open  echo
+31518/tcp open  ssl/echo
+31691/tcp open  echo
+31790/tcp open  ssl/unknown
+31960/tcp open  echo
+1 service unrecognized despite returning data. If you know the service/version, please submit the following fingerprint at https://nmap.org/cgi-bin/submit.cgi?new-service :
+SF-Port31790-TCP:V=7.98%T=SSL%I=7%D=10/17%Time=6AD3A2A3%P=x86_64-pc-linux-
+SF:gnu%r(GenericLines,32,"Wrong!\x20Please\x20enter\x20the\x20correct\x20c
+SF:urrent\x20password\.\n")%r(GetRequest,32,"Wrong!\x20Please\x20enter\x20
+SF:the\x20correct\x20current\x20password\.\n")%r(HTTPOptions,32,"Wrong!\x2
+SF:0Please\x20enter\x20the\x20correct\x20current\x20password\.\n")%r(RTSPR
+SF:equest,32,"Wrong!\x20Please\x20enter\x20the\x20correct\x20current\x20pa
+SF:ssword\.\n")%r(Help,32,"Wrong!\x20Please\x20enter\x20the\x20correct\x20
+SF:current\x20password\.\n")%r(FourOhFourRequest,32,"Wrong!\x20Please\x20e
+SF:nter\x20the\x20correct\x20current\x20password\.\n")%r(LPDString,32,"Wro
+SF:ng!\x20Please\x20enter\x20the\x20correct\x20current\x20password\.\n")%r
+SF:(SIPOptions,32,"Wrong!\x20Please\x20enter\x20the\x20correct\x20current\
+SF:x20password\.\n");
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 123.41 seconds
+bandit16@bandit:~$ 
+
+```
+So, now i am doing an open_ssl request to port **31790**
+After several iteration, i came to this command
+```
+echo "old lvl 17 pwd here " | openssl s_client -quiet -connect localhost:31790 > /tmp/tmp.4lsT5cxw2y/privatekey_kshitish
+
+```
+It just gave me a ssh key file, am i supposed to send it for new level ? or what ? 
+Let me get it into my local drive then try sending it 
+Now following steps from level 15? or 14,
+```bash
+dibij@Dibij:~/projects/CyberSecurity-Learning$ scp -P 2220 bandit16@bandit.labs.overthewire.org:/tmp/tmp.4lsT5cxw2y/privatekey_kshitish /tmp/level17privatekey
+                         _                     _ _ _   
+                        | |__   __ _ _ __   __| (_) |_ 
+                        | '_ \ / _` | '_ \ / _` | | __|
+                        | |_) | (_| | | | | (_| | | |_ 
+                        |_.__/ \__,_|_| |_|\__,_|_|\__|
+                                                       
+
+                      This is an OverTheWire game server. 
+            More information on http://www.overthewire.org/wargames
+
+backend: gibson-1
+bandit16@bandit.labs.overthewire.org's password: 
+Permission denied, please try again.
+bandit16@bandit.labs.overthewire.org's password: 
+Permission denied, please try again.
+bandit16@bandit.labs.overthewire.org's password: 
+privatekey_kshitish                                                       100% 2612     6.2KB/s   00:00    
+dibij@Dibij:~/projects/CyberSecurity-Learning$ dir /tmp
+level17privatekey
+mcp-PzuQsM
+node-compile-cache
+random_key_for_bandit
+snap-private-tmp
+systemd-private-59b68d1cda0e4bbd98118394a28f0442-ModemManager.service-itJKZs
+systemd-private-59b68d1cda0e4bbd98118394a28f0442-bluetooth.service-G5WYCr
+systemd-private-59b68d1cda0e4bbd98118394a28f0442-chrony.service-YG2EbM
+systemd-private-59b68d1cda0e4bbd98118394a28f0442-colord.service-2SlYtc
+systemd-private-59b68d1cda0e4bbd98118394a28f0442-fwupd.service-ICdvGf
+systemd-private-59b68d1cda0e4bbd98118394a28f0442-polkit.service-KanVSc
+systemd-private-59b68d1cda0e4bbd98118394a28f0442-power-profiles-daemon.service-xP2LlY
+systemd-private-59b68d1cda0e4bbd98118394a28f0442-switcheroo-control.service-z2L6i9
+systemd-private-59b68d1cda0e4bbd98118394a28f0442-systemd-logind.service-kBuFQd
+systemd-private-59b68d1cda0e4bbd98118394a28f0442-upower.service-xWIpPp
+unleash-repo-schema-v1-codeium-language-server.json
+vscode-ah-be523e38b7f6
+
+```
+I have downloaded the private key into my local drive, now to change its mod, first the symlink issue was fixed by me saving it in /tmp now to change ist mode
+
+```
+dibij@Dibij:~/projects/CyberSecurity-Learning$ chmod 600 /tmp/level17privatekey 
+dibij@Dibij:~/projects/CyberSecurity-Learning$ ls -lr /tmp/
+-rw------- 1 dibij dibij   2612 Oct 17 22:30 level17privatekey
+```
+
+Now to send it over ssh to next level using bandit17 username
+
+> [!tip] Quick Solution
+> 1. **Find the one SSL port in 31000–32000 that gives credentials back (not echo):**
+>    ```bash
+>    nmap -sV -p 31000-32000 localhost
+>    # Look for the port labeled ssl/unknown — that's port 31790
+>    ```
+> 2. **Submit the current password over SSL — you'll receive an SSH private key:**
+>    ```bash
+>    echo "<bandit16_password>" | openssl s_client -quiet -connect localhost:31790 > /tmp/mykey
+>    ```
+> 3. **Secure and use the key:**
+>    ```bash
+>    chmod 600 /tmp/mykey
+>    ssh -i /tmp/mykey -p 2220 bandit.labs.overthewire.org -l bandit17
+>    ```
+
+---
+## **Level 18**
+>There are 2 files in the homedirectory: **passwords.old and passwords.new**. The password for the next level is in **passwords.new** and is the only line that has been changed between **passwords.old and passwords.new**
+>**NOTE: if you have solved this level and see ‘Byebye!’ when trying to log into bandit18, this is related to the next level, bandit19**
+
+
+Well, i just looked into `man diff`
+it lead me to `-y` flag. I used it, and with a small tell, it showed me where the change is in 
+```bash
+diff -y passwords.new passowrds.old
+```
+it gave this result, trying it out now.
+Success!! but what's this ? 
+```
+dibij@Dibij:~/projects/CyberSecurity-Learning$ ssh -p 2220 bandit.labs.overthewire.org -l bandit18
+                         _                     _ _ _   
+                        | |__   __ _ _ __   __| (_) |_ 
+                        | '_ \ / _` | '_ \ / _` | | __|
+                        | |_) | (_| | | | | (_| | | |_ 
+                        |_.__/ \__,_|_| |_|\__,_|_|\__|
+                                                       
+
+                      This is an OverTheWire game server. 
+            More information on http://www.overthewire.org/wargames
+
+backend: gibson-1
+bandit18@bandit.labs.overthewire.org's password: 
+
+      ,----..            ,----,          .---.
+     /   /   \         ,/   .`|         /. ./|
+    /   .     :      ,`   .'  :     .--'.  ' ;
+   .   /   ;.  \   ;    ;     /    /__./ \ : |
+  .   ;   /  ` ; .'___,/    ,' .--'.  '   \' .
+  ;   |  ; \ ; | |    :     | /___/ \ |    ' '
+  |   :  | ; | ' ;    |.';  ; ;   \  \;      :
+  .   |  ' ' ' : `----'  |  |  \   ;  `      |
+  '   ;  \; /  |     '   :  ;   .   \    .\  ;
+   \   \  ',  /      |   |  '    \   \   ' \ |
+    ;   :    /       '   :  |     :   '  |--"
+     \   \ .'        ;   |.'       \   \ ;
+  www. `---` ver     '---' he       '---" ire.org
+
+
+Welcome to OverTheWire!
+
+If you find any problems, please report them to the #wargames channel on
+discord or IRC.
+
+--[ Playing the games ]--
+
+  This machine might hold several wargames.
+  If you are playing "somegame", then:
+
+    * USERNAMES are somegame0, somegame1, ...
+    * Most LEVELS are stored in /somegame/.
+    * PASSWORDS for each level are stored in /etc/somegame_pass/.
+
+  Write-access to homedirectories is disabled. It is advised to create a
+  working directory with a hard-to-guess name in /tmp/.  You can use the
+  command "mktemp -d" in order to generate a random and hard to guess
+  directory in /tmp/.  Read-access to both /tmp/ is disabled and to /proc
+  restricted so that users cannot snoop on eachother. Files and directories
+  with easily guessable or short names will be periodically deleted! The /tmp
+  directory is regularly wiped.
+  Please play nice:
+
+    * don't leave orphan processes running
+    * don't leave exploit-files laying around
+    * don't annoy other players
+    * don't post passwords or spoilers
+    * again, DONT POST SPOILERS!
+      This includes writeups of your solution on your blog or website!
+
+--[ Tips ]--
+
+  This machine has a 64bit processor and many security-features enabled
+  by default, although ASLR has been switched off.  The following
+  compiler flags might be interesting:
+
+    -m32                    compile for 32bit
+    -fno-stack-protector    disable ProPolice
+    -Wl,-z,norelro          disable relro
+
+  In addition, the execstack tool can be used to flag the stack as
+  executable on ELF binaries.
+
+  Finally, network-access is limited for most levels by a local
+  firewall.
+
+--[ Tools ]--
+
+ For your convenience we have installed a few useful tools which you can find
+ in the following locations:
+
+    * gef (https://github.com/hugsy/gef) in /opt/gef/
+    * pwndbg (https://github.com/pwndbg/pwndbg) in /opt/pwndbg/
+    * gdbinit (https://github.com/gdbinit/Gdbinit) in /opt/gdbinit/
+    * pwntools (https://github.com/Gallopsled/pwntools)
+    * radare2 (http://www.radare.org/)
+
+--[ More information ]--
+
+  For more information regarding individual wargames, visit
+  http://www.overthewire.org/wargames/
+
+  For support, questions or comments, contact us on discord or IRC.
+
+  Enjoy your stay!
+
+Byebye !
+Connection to bandit.labs.overthewire.org closed.
+dibij@Dibij:~/projects/CyberSecurity-Learning$ 
+
+```
+
+> [!tip] Quick Solution
+> Use `diff -y` to show a side-by-side comparison. The `|` symbol marks changed lines, `<` and `>` mark lines only in one file:
+> ```bash
+> diff -y passwords.old passwords.new
+> # The line marked with | is what changed — that's the new password
+> ```
+
+---
+## **Level 19**
+The password for the next level is stored in a file **readme** in the homedirectory. Unfortunately, someone has modified **.bashrc** to log you out when you log in with SSH.
+huh ? what do you mean ? am i supposed to solve it ? 
+Well apparently this worked: 
+```bash
+dibij@Dibij:~/projects/CyberSecurity-Learning$ ssh -p 2220 bandit.labs.overthewire.org -l bandit18 "cat readme"
+                         _                     _ _ _   
+                        | |__   __ _ _ __   __| (_) |_ 
+                        | '_ \ / _` | '_ \ / _` | | __|
+                        | |_) | (_| | | | | (_| | | |_ 
+                        |_.__/ \__,_|_| |_|\__,_|_|\__|
+                                                       
+
+                      This is an OverTheWire game server. 
+            More information on http://www.overthewire.org/wargames
+
+backend: gibson-1
+bandit18@bandit.labs.overthewire.org's password: 
+<,pwd here.>
+```
+
+> [!tip] Quick Solution
+> Pass a command directly to SSH — it executes before `.bashrc` runs, so the forced logout never triggers:
+> ```bash
+> ssh -p 2220 bandit.labs.overthewire.org -l bandit18 "cat readme"
+> ```
+
+---
+## **Level 20**
+
+>To gain access to the next level, you should use the setuid binary in the homedirectory. Execute it without arguments to find out how to use it. The password for this level can be found in the usual place (/etc/bandit_pass), after you have used the setuid binary.
+
+
+I honestly dont understand what the fuck happepned here, but i will try to explain
+so i first naievely tried running `setuid()` and `setuid() 1` and `setuid(1)` and other variations because the question said use the setuid binary, but there was a file name bandit20-do, so you had to use that file, then it asked you to run the `whoami` command alongside it, it said `bandit20` since the file says `bandit20` and we need `bandit20` to access pwd for new level. we run these commands:
+```bash
+bandit19@bandit:~$ dir
+bandit20-do
+bandit19@bandit:~$ ls -la
+total 36
+drwxr-xr-x   2 root     root      4096 Sep 26 21:53 .
+drwxr-xr-x 150 root     root      4096 Sep 26 21:56 ..
+-rw-r--r--   1 root     root       220 Feb 13  2026 .bash_logout
+-rw-r--r--   1 root     root      3851 Sep 26 21:38 .bashrc
+-rw-r--r--   1 root     root       807 Feb 13  2026 .profile
+-rwsr-x---   1 bandit20 bandit19 14880 Sep 26 21:53 bandit20-do
+bandit19@bandit:~$ ./bandit20-do 
+Run a command as another user.
+  Example: ./bandit20-do whoami
+bandit19@bandit:~$ ./bandit20-do whoami
+bandit20
+bandit19@bandit:~$ ./bandit20-do cat /etc/bandit_pass/bandit20
+<pwd here>
+```
+Moving on......
+
+> [!tip] Quick Solution
+> The `bandit20-do` binary has the **setuid** bit set (`-rwsr-x---`), meaning it runs as `bandit20` regardless of who executes it. Use it to `cat` the password file you'd normally need `bandit20` access to:
+> ```bash
+> ./bandit20-do cat /etc/bandit_pass/bandit20
+> ```
+
+---
+## **Level 21**
+>There is a setuid binary in the home directory that does the following: it makes a connection to localhost on the port you specify as a command-line argument. It then reads a line of text from the connection and compares it to the password in the previous level (bandit20). If the password is correct, it will transmit the password for the next level (bandit21).
+> **NOTE:** Try connecting to your own network daemon to see if it works as you think
+
+i don't understand what the note means, so i need to guess which port to specify and it does not give me any direction ?  let me arbitrarily choose 30000. It has hanged itself 
+so i looked a bit, and ran into this command to check my *network daemon*
+
+```bash
+dibij@Dibij:~/projects/CyberSecurity-Learning$ sudo systemctl status NetworkManager
+[sudo: authenticate] Password:         
+● NetworkManager.service - Network Manager
+     Loaded: loaded (/usr/lib/systemd/system/NetworkManager.service; enabled; preset: enabled)
+     Active: active (running) since Sat 2026-10-17 23:36:26 +0545; 25min left
+ Invocation: 0c3823b4538641889bda5e45fcb316ed
+       Docs: man:NetworkManager(8)
+   Main PID: 1377 (NetworkManager)
+      Tasks: 4 (limit: 8602)
+     Memory: 6.8M (peak: 14.1M, swap: 1.9M, swap peak: 2M)
+        CPU: 4.572s
+     CGroup: /system.slice/NetworkManager.service
+             └─1377 /usr/sbin/NetworkManager --no-daemon
+
+Oct 17 23:36:31 Dibij NetworkManager[1377]: <info>  [1792259491.0146] device (wlp8s0): state change: ip-con>
+Oct 17 23:36:31 Dibij NetworkManager[1377]: <info>  [1792259491.0207] device (wlp8s0): state change: ip-che>
+Oct 17 23:36:31 Dibij NetworkManager[1377]: <info>  [1792259491.0209] device (wlp8s0): state change: second>
+Oct 17 23:36:31 Dibij NetworkManager[1377]: <info>  [1792259491.0212] manager: NetworkManager state is now >
+Oct 17 23:36:31 Dibij NetworkManager[1377]: <info>  [1792259491.0217] device (wlp8s0): Activation: successf>
+Oct 17 23:36:31 Dibij NetworkManager[1377]: <info>  [1792259491.8139] manager: NetworkManager state is now >
+Oct 17 23:36:32 Dibij NetworkManager[1377]: <info>  [1792259492.4692] manager: startup complete
+Oct 17 23:36:32 Dibij NetworkManager[1377]: <info>  [1792259492.9415] policy: set 'chudarajhome_frtmt_2' (w>
+Oct 17 17:51:48 Dibij NetworkManager[1377]: <info>  [1792238808.3492] agent-manager: agent[1605f87bf606b47c>
+Oct 17 17:51:54 Dibij NetworkManager[1377]: <info>  [1792238814.1591] agent-manager: agent[5dd852c5048ba75f>
+dibij@Dibij:~/projects/CyberSecurity-Learning$ sudo ss -tulnp
+Netid   State    Recv-Q   Send-Q                                 Local Address:Port      Peer Address:Port  Process                                                                                                     
+udp     UNCONN   0        0                                         127.0.0.54:53             0.0.0.0:*      users:(("systemd-resolve",pid=504,fd=18))                                                                  
+udp     UNCONN   0        0                                      127.0.0.53%lo:53             0.0.0.0:*      users:(("systemd-resolve",pid=504,fd=16))                                                                  
+udp     UNCONN   0        0                                       192.168.1.77:37000          0.0.0.0:*      users:(("Socket Process",pid=5043,fd=31))                                                                  
+udp     UNCONN   0        0                                          127.0.0.1:323            0.0.0.0:*      users:(("chronyd",pid=1321,fd=4))                                                                          
+udp     UNCONN   0        0                                            0.0.0.0:5353           0.0.0.0:*      users:(("firefox",pid=4788,fd=205))                                                                        
+udp     UNCONN   0        0                                            0.0.0.0:5353           0.0.0.0:*      users:(("avahi-daemon",pid=1223,fd=12))                                                                    
+udp     UNCONN   0        0                                       192.168.1.77:38234          0.0.0.0:*      users:(("Socket Process",pid=5043,fd=33))                                                                  
+udp     UNCONN   0        0                                                  *:34877                *:*      users:(("firefox",pid=4788,fd=96))                                                                         
+udp     UNCONN   0        0          [2400:1a00:4b48:e8d7:abb6:2164:b215:c1b0]:43204             [::]:*      users:(("Socket Process",pid=5043,fd=30))                                                                  
+udp     UNCONN   0        0          [2400:1a00:4b48:e8d7:abb6:2164:b215:c1b0]:47993             [::]:*      users:(("Socket Process",pid=5043,fd=32))                                                                  
+udp     UNCONN   0        0                                                  *:39864                *:*      users:(("firefox",pid=4788,fd=166))                                                                        
+udp     UNCONN   0        0                                                  *:40854                *:*      users:(("firefox",pid=4788,fd=99))                                                                         
+udp     UNCONN   0        0                                              [::1]:323               [::]:*      users:(("chronyd",pid=1321,fd=5))                                                                          
+udp     UNCONN   0        0                                               [::]:5353              [::]:*      users:(("avahi-daemon",pid=1223,fd=13))                                                                    
+tcp     LISTEN   0        4096                                      127.0.0.54:53             0.0.0.0:*      users:(("systemd-resolve",pid=504,fd=19))                                                                  
+tcp     LISTEN   0        4096                                       127.0.0.1:36307          0.0.0.0:*      users:(("agy",pid=14628,fd=11))                                                                            
+tcp     LISTEN   0        4096                                       127.0.0.1:40321          0.0.0.0:*      users:(("agy",pid=14628,fd=13))                                                                            
+tcp     LISTEN   0        511                                        127.0.0.1:43433          0.0.0.0:*      users:(("code",pid=8156,fd=50))                                                                            
+tcp     LISTEN   0        4096                                       127.0.0.1:631            0.0.0.0:*      users:(("cupsd",pid=1538,fd=7))                                                                            
+tcp     LISTEN   0        4096                                   127.0.0.53%lo:53             0.0.0.0:*      users:(("systemd-resolve",pid=504,fd=17))                                                                  
+tcp     LISTEN   0        4096                                           [::1]:631               [::]:*      users:(("cupsd",pid=1538,fd=6))                                                                            
+dibij@Dibij:~/projects/CyberSecurity-Learning$ 
+
+```
+I tried several of these ports none worked. I don't know what the issue is.
+Why cant i think for myself ? why did i have to move onto my device network daemon ? fuck me. Since a server is listentning in this ssh connection on their machine, whytf did i not think of finding the ports that are open in this machine ? why am i so dumb ? how will i improve like this ? 
+
+```bash
+bandit20@bandit:~$ nmap -p- localhost
+Starting Nmap 7.98 ( https://nmap.org ) at 2026-10-17 17:37 +0000
+Nmap scan report for localhost (127.0.0.1)
+Host is up (0.00011s latency).
+Other addresses for localhost (not scanned): ::1
+Not shown: 65505 closed tcp ports (conn-refused)
+PORT      STATE SERVICE
+22/tcp    open  ssh
+1111/tcp  open  lmsocialserver
+1840/tcp  open  netopia-vo2
+2220/tcp  open  netiq
+2221/tcp  open  rockwell-csp1
+2223/tcp  open  rockwell-csp2
+2224/tcp  open  efi-mg
+2225/tcp  open  rcip-itu
+2226/tcp  open  di-drm
+2227/tcp  open  di-msg
+2228/tcp  open  ehome-ms
+2230/tcp  open  queueadm
+2231/tcp  open  wimaxasncp
+2232/tcp  open  ivs-video
+4091/tcp  open  ewinstaller
+4258/tcp  open  vrml-multi-use
+4321/tcp  open  rwhois
+5842/tcp  open  reversion
+8000/tcp  open  http-alt
+30000/tcp open  ndmps
+30001/tcp open  pago-services1
+30002/tcp open  pago-services2
+31046/tcp open  unknown
+31518/tcp open  unknown
+31691/tcp open  unknown
+31790/tcp open  unknown
+31960/tcp open  unknown
+50001/tcp open  unknown
+51790/tcp open  unknown
+60917/tcp open  unknown
+
+Nmap done: 1 IP address (1 host up) scanned in 3.56 seconds
+bandit20@bandit:~$ 
+```
+Now running `./suconnect` on all these open and unknown ports;
+
+
 
 ---
 
 ## Current Position
 
-**Last completed:** Bandit Level 15 objective.
+**Last completed:** Bandit Level 20 (setuid binary — `./bandit20-do cat /etc/bandit_pass/bandit20`).
 
-**Next:** Connect to localhost port 30001 with SSL/TLS encryption (using `openssl s_client -connect localhost:30001` or `ncat --ssl localhost 30001`), submit the Level 15 password, and retrieve the Level 16 password.
+**Currently stuck on:** Level 21.
+
+**Level 21 hint for tomorrow:**
+The note says "Try connecting to your **own** network daemon" — the key word is *own*. `./suconnect` is a *client* that connects to a port *you* open. You need to spin up your own listener first, have it hold the `bandit20` password, then point `suconnect` at it:
+```bash
+# Terminal 1 (or background with &):
+echo "<bandit20_password>" | nc -lvnp 4444 &
+
+# Then run suconnect pointing at your listener:
+./suconnect 4444
+```
+`suconnect` will connect, read the password from your listener, verify it matches `bandit20`, and send back `bandit21`'s password.
 
 **Learning approach:** Attempt each challenge independently before consulting walkthroughs.
 
 **Related sessions:**
-- [[2026-10-17 - Bandit - Session]]
-- [[2026-10-17 - DNS - Session]]
-- [[2026-10-16 - Cybersecurity Learning Session]]
+- [[2026-10-17 - Bandit Session 2]] — Session 005 (Levels 15–20: SSL/TLS, nmap port scan, diff -y, .bashrc bypass, setuid)
+- [[2026-10-17 - Bandit - Session]] — Session 004 (SSH keys, chmod 600, scp)
+- [[2026-10-17 - DNS - Session]] — Session 003 (DNS caching, latency, resolvectl)
+- [[2026-10-16 - Cybersecurity Learning Session]] — Session 002 (Bandit 9–13)

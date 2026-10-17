@@ -155,7 +155,11 @@ bunzip2 -dk file.bz2
 ## 4. Remote Access & File Transfer
 
 ### `ssh` — Secure Shell
-SSH is a program for logging into a remote machine and for executing commands on a remote machine.
+**Remote Command Execution:**
+You can append any command directly to the SSH command string. It executes on the remote server and returns stdout without launching an interactive shell (running before `.bashrc` can process or log you out):
+```bash
+ssh -p 2220 bandit.labs.overthewire.org -l bandit18 "cat readme"
+```
 
 **Common Flags:**
 - `-p <port>` — Specify port to connect to (e.g. `-p 2220`)
@@ -166,9 +170,13 @@ SSH is a program for logging into a remote machine and for executing commands on
 - `-A` — Enables forwarding of connection from an authentication agent
 - `-a` — Disables forwarding such connection
 
-**Example:**
+**Examples:**
 ```bash
+# Login with private key:
 ssh -i /path/to/key -p 2220 bandit.labs.overthewire.org -l bandit14
+
+# Execute command directly:
+ssh -p 2220 bandit.labs.overthewire.org -l bandit18 "cat readme"
 ```
 
 ### `scp` — Secure Copy Protocol
@@ -317,5 +325,25 @@ nmap -sV -p 31000-32000 localhost
 # Scan open ports quietly with fast timing (-T4):
 nmap -T4 -p 31000-32000 localhost
 ```
+
+
+---
+
+## 9. File Comparison
+
+### `diff` — File Differences
+Compares files line by line to locate differences.
+
+```bash
+# Standard comparison:
+diff file1 file2
+
+# Side-by-side comparison (identifies changes with | and < >):
+diff -y passwords.old passwords.new
+
+# Unified format (standard for git/patches):
+diff -u file1 file2
+```
+
 
 

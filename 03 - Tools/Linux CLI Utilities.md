@@ -149,3 +149,66 @@ bunzip2 -d file.bz2
 # Decompress and keep original file (-k)
 bunzip2 -dk file.bz2
 ```
+
+---
+
+## 4. Remote Access & File Transfer
+
+### `ssh` — Secure Shell
+SSH is a program for logging into a remote machine and for executing commands on a remote machine.
+
+**Common Flags:**
+- `-p <port>` — Specify port to connect to (e.g. `-p 2220`)
+- `-i <keyfile>` — Identity file (selects a private key for public-key authentication)
+- `-l <username>` — Selecting username (alternative to `username@host`)
+- `-4` — Forces SSH to use IPv4 only
+- `-6` — Forces SSH to use IPv6 only
+- `-A` — Enables forwarding of connection from an authentication agent
+- `-a` — Disables forwarding such connection
+
+**Example:**
+```bash
+ssh -i /path/to/key -p 2220 bandit.labs.overthewire.org -l bandit14
+```
+
+### `scp` — Secure Copy Protocol
+`scp` copies files between hosts on a network using an encrypted SSH connection.
+
+```bash
+# Basic format:
+scp username@remote_host_ip:/path/to/remote/file /path/to/local/destination
+
+# Specifying a custom port (NOTE: uses capital -P):
+scp -P 2220 bandit13@bandit.labs.overthewire.org:/remote/path/my_key /local/destination/
+```
+
+---
+
+## 5. File Permissions & Masks
+
+### `chmod` — Change File Mode / Permissions
+`chmod` is used for changing access modes/permissions of files and directories.
+
+- `chmod 600 file` — Read & Write for owner only (`-rw-------`). **Required for SSH private keys!**
+- `chmod 700 file` — Read, Write, & Execute for owner only.
+- `chmod 755 file` — Read & Execute for everyone, Write for owner.
+
+### `umask` — User Mask
+`umask` is used to strip away default permissions when new files or directories are created.
+- A umask of `077` ensures newly created files are only readable/writable by the owner.
+
+---
+
+## 6. Network Connections & Sockets
+
+### `nc` (Netcat) — Arbitrary TCP and UDP Connections
+Netcat allows you to manually open up a pipe to send and receive data across a network connection.
+
+```bash
+# Connect to a TCP port:
+nc localhost 30000
+
+# Connect and send data directly:
+echo "password" | nc localhost 30000
+```
+

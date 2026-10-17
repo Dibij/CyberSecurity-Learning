@@ -11,9 +11,9 @@ type: dashboard
 
 ## Current Focus & Status
 
-- **Active Track:** Linux Fundamentals through OverTheWire Bandit
-- **Current Position:** Completed Level 13 — Ready to start **Bandit Level 14**
-- **Next Action:** Log in as `bandit13` with private key/password and connect to port 30000 on localhost
+- **Active Tracks:** OverTheWire Bandit + Networking (DNS) + upcoming TryHackMe
+- **Current Position:** Bandit Level 14 next; DNS cache & latency mechanics investigated
+- **Next Action:** Push 2 hours on Bandit (SSH keys / localhost ports) -> TryHackMe exploration
 - **Credentials:** Securely kept in `.secrets/bandit_passwords.txt`
 
 ---
@@ -34,6 +34,7 @@ type: dashboard
 
 ### 🗓️ Journal & Baseline
 - [[Starting Point]] — Baseline self-assessment & 30/90-day goals
+- [[2026-10-17 - DNS - Session]] — Session 003 log (DNS caching, latency, resolvectl)
 - [[2026-10-16 - Cybersecurity Learning Session]] — Session 002 log (Bandit 9–13)
 - [[2026-10-15 - Cybersecurity Learning Session]] — Session 001 log
 

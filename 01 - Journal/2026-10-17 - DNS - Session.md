@@ -50,10 +50,7 @@ To make sure the domain is not down if one server is overloaded (Load Balancing)
    - Log in as `bandit13` using the private SSH key (`sshkey.private`).
    - Connect to port 30000 on localhost to retrieve the Bandit 14 password.
    - Continue pushing through the Bandit levels.
-2. **Explore TryHackMe:**
-   - Sign up / log into TryHackMe.
-   - Start the beginner Linux or Pre-Security path to complement Bandit with structured labs.
-3. **Follow-up DNS questions:**
+2. **Follow-up DNS questions:**
    - See the new questions added to [[DNS#4. Questions to Investigate]].
 
 ---

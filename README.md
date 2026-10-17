@@ -22,6 +22,6 @@ Built as an **Obsidian** vault with a low-friction, structured learning flow.
 - **`04 - Labs and Experiments/`**: Hands-on challenge writeups, CTF walkthroughs, and progress trackers.
 - **`05 - Projects/`**: Applied personal projects (home lab setups, server hardening, security audits).
 - **`06 - Templates/`**: Minimal templates for taking notes without friction.
-- **`.secrets/`** *(Git-ignored)*: Passwords, tokens, and flags kept strictly local.
+- **`_secrets/`** *(Git-ignored)*: Passwords, tokens, and flags kept strictly local.
 
 > 🔒 **Security Notice:** All wargame passwords, flags, and sensitive credentials are kept strictly out of Git version control via `.gitignore`.

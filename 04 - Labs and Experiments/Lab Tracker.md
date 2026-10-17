@@ -19,4 +19,4 @@ tags:
 
 ## Progress Overview
 - **Bandit Current Level:** Ready to log in as `bandit13` (working towards Level 14 password).
-- **Credentials Location:** Local-only `.secrets/bandit_passwords.txt`.
+- **Credentials Location:** Local-only [[Bandit Passwords]].

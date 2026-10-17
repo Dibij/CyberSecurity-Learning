@@ -14,7 +14,7 @@ type: dashboard
 - **Active Tracks:** OverTheWire Bandit + Networking (DNS) + upcoming TryHackMe
 - **Current Position:** Bandit Level 14 next; DNS cache & latency mechanics investigated
 - **Next Action:** Push 2 hours on Bandit (SSH keys / localhost ports) -> TryHackMe exploration
-- **Credentials:** Securely kept in `.secrets/bandit_passwords.txt`
+- **Credentials:** Securely kept in [[Bandit Passwords]] (local-only / Git-ignored)
 
 ---
 

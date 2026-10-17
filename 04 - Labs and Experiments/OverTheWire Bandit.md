@@ -25,7 +25,7 @@ Related notes:
 - [[2026-10-16 - Cybersecurity Learning Session]]
 
 > [!note] Password Storage
-> Wargame passwords are kept securely out of Git in `.secrets/bandit_passwords.txt`.
+> Wargame passwords are kept securely out of Git in [[Bandit Passwords]].
 
 ---
 
@@ -66,7 +66,7 @@ Level 1 has you working with a few commands:
 The password for the next level is stored in a file called **`readme`**, located in the home directory. Use this password to log into `bandit1` using SSH. Whenever you find a password for a level, use SSH (on port 2220) to log into that level and continue the game.
 
 ### Steps I took to clear this level
-I just did `ls`, and the file `readme` was just there. The password I got from it using `cat` was saved to `.secrets/bandit_passwords.txt`.
+I just did `ls`, and the file `readme` was just there. The password I got from it using `cat` was saved to [[Bandit Passwords]].
 
 So I am exiting out of `bandit0` and logging into **`bandit1`** using this password.
 I am inside `bandit1`.
@@ -190,7 +190,7 @@ cat data.txt | grep millionth
 ```
 and it gave this output:
 ```text
-millionth	<see .secrets/bandit_passwords.txt>
+millionth	<see [[Bandit Passwords]]>
 ```
 I hope this works. And it did work.
 
@@ -260,7 +260,7 @@ dibij@Dibij:~/projects/CyberSecurity-Learning$ ls -l blah.foo tmp > errors.txt 2
 > `strings data.txt | sort | uniq -c`
 > i was too dumb `strings data.txt` converts the file into each line of string, `sort` actually sorted them and `uniq -c` gave how many times those strings of line were repeated. but why did `strings data.txt | uniq -c` not work ? 
 > I forgot what i wrote in this part in the command explanation part, uniq only looks at the line sequentially to it. Thats why we need to sort it.
-> Well i have put up the password in `.secrets/bandit_passwords.txt`.
+> Well i have put up the password in [[Bandit Passwords]].
 
 > [!tip] Quick Solution & Lesson
 > `strings data.txt | sort | uniq -c` (or `sort data.txt | uniq -u`)
@@ -431,6 +431,12 @@ The password is [password displayed by the command]
 > **Key lesson:** Use `file` to identify each file's format before choosing the next operation. The filename extension does not necessarily tell you what format the file contains.
 
 ---
+
+## **Level 14**
+
+
+---
+
 
 ## Current Position
 

@@ -13,7 +13,7 @@ type: dashboard
 
 - **Active Tracks:** OverTheWire Bandit + Networking (DNS) + upcoming TryHackMe
 - **Current Position:** Bandit Level 20 solved ✅ — Stuck on Level 21 (listener puzzle)
-- **Next Action:** On bandit server: `echo "<bandit20_pwd>" | nc -lvnp 4444 &` then `./suconnect 4444`
+- **Next Action:** Figure out Level 21 — re-read the challenge description carefully 🤔
 - **Credentials:** Securely kept in [[Bandit Passwords]] (local-only / Git-ignored)
 
 ---

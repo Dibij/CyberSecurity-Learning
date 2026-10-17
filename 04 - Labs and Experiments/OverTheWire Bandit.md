@@ -1443,17 +1443,6 @@ Now running `./suconnect` on all these open and unknown ports;
 
 **Currently stuck on:** Level 21.
 
-**Level 21 hint for tomorrow:**
-The note says "Try connecting to your **own** network daemon" — the key word is *own*. `./suconnect` is a *client* that connects to a port *you* open. You need to spin up your own listener first, have it hold the `bandit20` password, then point `suconnect` at it:
-```bash
-# Terminal 1 (or background with &):
-echo "<bandit20_password>" | nc -lvnp 4444 &
-
-# Then run suconnect pointing at your listener:
-./suconnect 4444
-```
-`suconnect` will connect, read the password from your listener, verify it matches `bandit20`, and send back `bandit21`'s password.
-
 **Learning approach:** Attempt each challenge independently before consulting walkthroughs.
 
 **Related sessions:**

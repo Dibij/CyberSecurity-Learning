@@ -52,9 +52,7 @@ There was a binary called `bandit20-do` with the setuid bit (`-rwsr-x---`). Was 
 ```
 
 ### Level 20 → 21 (STUCK — the listener puzzle)
-This is where I hit a wall. The binary `suconnect` connects to a port *you specify* and reads the password. The hint says "connect to your own network daemon" — but I thought that meant inspecting my local machine's network daemons (`systemctl status NetworkManager`, `ss -tulnp`). Ran all those on my local machine, not on the bandit server. Then ran `nmap -p-` on bandit localhost to check open ports, tried `./suconnect` on various random ports. Nothing worked.
-
-Figured out the mistake too late: the "network daemon" you create is a **listener you spin up yourself on the bandit server**. Level 21 requires two terminals (or background processes). Leaving it for tomorrow.
+This is where I hit a wall. The binary `suconnect` connects to a port *you specify* and reads the password. The hint says "connect to your own network daemon" — but I thought that meant inspecting my local machine's network daemons (`systemctl status NetworkManager`, `ss -tulnp`). Ran all those on my local machine, not on the bandit server. Then ran `nmap -p-` on bandit localhost to check open ports, tried `./suconnect` on various random ports. Nothing worked. Leaving it for tomorrow.
 
 ---
 
@@ -67,7 +65,6 @@ Figured out the mistake too late: the "network daemon" you create is a **listene
 | `diff -y` | Side-by-side file diff; `|` marks changed lines |
 | SSH remote command execution | Append command to SSH string to bypass `.bashrc` |
 | `setuid` binary | Runs as owner (e.g. bandit20), not the caller — allows privilege escalation within rules |
-| `nc -lvnp` | Starts a listening netcat server. `-l` listen, `-v` verbose, `-n` no DNS, `-p` port |
 
 ---
 
@@ -77,7 +74,7 @@ Honestly pumped. 6 levels in one night is a lot. But the Level 21 mistake was ro
 
 Still — I went from not knowing what openssl is to understanding TLS handshakes, SSH private keys from SSL connections, setuid binaries, and `.bashrc` hijacking in one session. That's not nothing.
 
-Tomorrow: Level 21. Two terminal approach. Spin up `nc -lvnp <port>` first, then `./suconnect <port>`. Probably going to try TryHackMe after.
+Tomorrow: Level 21. Leaving it fresh.
 
 ---
 

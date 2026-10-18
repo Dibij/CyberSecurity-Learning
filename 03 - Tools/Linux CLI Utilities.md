@@ -345,5 +345,58 @@ diff -y passwords.old passwords.new
 diff -u file1 file2
 ```
 
+---
+## 10. Scheduler
 
+### `cron` — Background Daemon
+The system service/daemon that executes scheduled commands. It runs silently in the background and wakes up every minute to check the crontab files for pending jobs.
+```bash
+# Check if the cron service is running (systemd)
+systemctl status cron
 
+# Restart the cron service if it stops working
+sudo systemctl restart cron
+```
+
+### `crontab` — Manage User Crontabs
+The command used to edit, list, and remove the scheduled jobs (the crontab file) for the current user.
+```bash
+# Edit your crontab (opens default text editor, usually nano/vim)
+crontab -e
+
+# List your current scheduled cron jobs
+crontab -l
+
+# Remove all your cron jobs (be careful!)
+crontab -r
+```
+
+**Cron Syntax:**
+```text
+* * * * * command_to_execute
+│ │ │ │ │
+│ │ │ │ └── Day of the week (0-7, where both 0 and 7 represent Sunday)
+│ │ │ └──── Month (1-12)
+│ │ └────── Day of the month (1-31)
+│ └──────── Hour (0-23)
+└────────── Minute (0-59)
+```
+
+**Examples:**
+```bash
+# Run a script every day at 3:00 AM
+0 3 * * * /path/to/script.sh
+
+# Run a backup every 15 minutes
+*/15 * * * * /path/to/backup.sh
+
+# Run a job every time the system boots (special macro)
+@reboot /path/to/startup_script.sh
+```
+
+### `crontab(5)` — Crontab File Format
+The Linux manual page that documents the detailed syntax, special characters, and format rules of the crontab files.
+```bash
+# Read the manual page for the crontab file format
+man 5 crontab
+```

@@ -2,8 +2,8 @@
 title: "OverTheWire: Bandit Walkthrough"
 type: lab-writeup
 platform: OverTheWire
-status: in-progress
-current_level: 21
+current_level: 33
+status: complete
 tags:
   - lab
   - wargame
@@ -1432,21 +1432,545 @@ Nmap done: 1 IP address (1 host up) scanned in 3.56 seconds
 bandit20@bandit:~$ 
 ```
 Now running `./suconnect` on all these open and unknown ports;
+Well, in previous session i tried passing all these ports into some commands, and none worked, i forgot to journal them. but Lets think of a way. Lets go through the question again.
+
+SO this setuid binary `suoconnect` connects to localhost on a certain port i have the specify. Then it checks against the lvl 20 pwd and if correct i passes me the pwd for lvl 21. But one question:
+
+>Do i send the password along with the connection request ?
+
+And honestly i dont even understand these new commands. 
+Let me pullup the open ports on my terminal again. I have like no direction on what to move forward to: 
+i know what you can send content/file to a "server" ? through nc, so like i send lvl 20 pwd along with port? and bruteforce it for 8 open and unknown ports ? 
+But yesterday several ais said something about listening and checking connection. 
+Through several convo's with chatgpt here are the steps i am trying out right now: 
+- Choose a TCP port that is available on the Bandit server.
+- Start a listener on that port.
+- Make sure the listener is ready before doing anything else.
+- Run `suconnect` and tell it to connect to that same port.
+- When the connection is established, send the previous level's password as a line of text.
+- Observe what `suconnect` returns.
+
+Well i tried starting a listen on 31046 port but it says
+```bash
+bandit20@bandit:~$ nc -l 31046
+nc: Address already in use
+bandit20@bandit:~$
+```
+
+What the fuck is this ?
+How were people supposed to solve this without AI or teacher? how did people self learn all this ? fuckk me
+
+Well i got it to work finally:
+so, first you spinup a listener on a new port with
+`nc -l portnumber`
+then in another terminal you use the setuid binary to connect to that terminal through
+`suconnect portnumber`
+
+And since you have to passup the previous level password to suoconnect, and suconnect listens to what the specifed port says, we pass the password through `echo " " | nc -l 23456`
+This in the listener tab, it gave me the password. This was hard
+
+> [!tip] Quick Solution
+> You need to be both the server *and* the client — spin up your own listener that holds the password, then point `suconnect` at it:
+> ```bash
+> # In one terminal (or backgrounded with &):
+> echo "<bandit20_password>" | nc -l -p 23456 &
+>
+> # Then in the same (or another) terminal:
+> ./suconnect 23456
+> ```
+> `suconnect` connects to your listener, reads the password, verifies it's correct, and sends back the bandit21 password.
+
+---
+## **Level 22**
+>A program is running automatically at regular intervals from **cron**, the time-based job scheduler. Look in **/etc/cron.d/** for the configuration and see what command is being executed.
+
+ Commands you may need to solve this level
+cron, crontab, crontab(5) (use “man 5 crontab” to access this)
+
+so running `man cron`
+I do not understand this level at all, no instruction on how to get the password, or like which file to work with ?
+like
+```bash
+bandit21@bandit:~$ cd /etc/cron.d/
+bandit21@bandit:/etc/cron.d$ ls -la
+total 56
+drwxr-xr-x   2 root root  4096 Sep 27 06:51 .
+drwxr-xr-x 128 root root 12288 Oct 16 14:15 ..
+-rw-r--r--   1 root root   102 Nov  5  2025 .placeholder
+-r--r-----   1 root root    47 Sep 26 21:55 behemoth4_cleanup
+-rw-r--r--   1 root root   127 Sep 27 06:51 clean_tmp
+-rw-r--r--   1 root root   120 Sep 26 21:54 cronjob_bandit22
+-rw-r--r--   1 root root   122 Sep 26 21:54 cronjob_bandit23
+-rw-r--r--   1 root root   120 Sep 26 21:54 cronjob_bandit24
+-rw-r--r--   1 root root   188 Feb 13  2026 e2scrub_all
+-r--r-----   1 root root    48 Sep 26 21:56 leviathan5_cleanup
+-rw-------   1 root root   138 Sep 26 21:56 manpage3_resetpw_job
+-rwx------   1 root root    52 Sep 26 21:58 otw-tmp-dir
+bandit21@bandit:~$ crontab -e
+crontabs/bandit21/: fdopen: Permission deniedbandit21@bandit:~$
+bandit21@bandit:~$ crontab -l
+crontabs/bandit21/: fopen: Permission denied
+bandit21@bandit:~$ systemctl status cron
+● cron.service - Regular background program processing daemon
+     Loaded: loaded (/usr/lib/systemd/system/cron.service; enabled; preset: enabled)
+     Active: active (running) since Fri 2026-10-16 14:15:05 UTC; 1 day 21h ago
+ Invocation: <i hope whatever was here was the password but letme try>
+       Docs: man:cron(8)
+   Main PID: 646
+      Tasks: 1 (limit: 3736)
+     Memory: 2M (peak: 30.5M)
+        CPU: 58min 31.356s
+     CGroup: /system.slice/cron.service
+             └─646 /usr/sbin/cron -f -P
+bandit21@bandit:~$
+bandit21@bandit:~$ ls /etc/cron.d/
+behemoth4_cleanup  cronjob_bandit22  cronjob_bandit24  leviathan5_cleanup    otw-tmp-dir
+clean_tmp          cronjob_bandit23  e2scrub_all       manpage3_resetpw_job
+bandit21@bandit:~$ cat /etc/cron.d/cronjob_bandit22
+@reboot bandit22 /usr/bin/cronjob_bandit22.sh &> /dev/null
+* * * * * bandit22 /usr/bin/cronjob_bandit22.sh &> /dev/null
+bandit21@bandit:~$ cat /usr/bin/cronjob_bandit22.sh
+#!/bin/bash
+chmod 644 /tmp/t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv
+cat /etc/bandit_pass/bandit22 > /tmp/t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv
+bandit21@bandit:~$ cat /tmp/t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv
+<pwd here>
+```
+well this was intresting, i am kinda dumb and not made for investigation
+I got into level 23
+
+> [!tip] Quick Solution
+> The cron job for bandit22 runs every minute and writes the password to a world-readable temp file. You don't need to wait — it's already there:
+> ```bash
+> cat /usr/bin/cronjob_bandit22.sh       # read the script to find the tmp path
+> cat /tmp/t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv
+> ```
+
+---
+## **Level 23**
+>A program is running automatically at regular intervals from **cron**, the time-based job scheduler. Look in **/etc/cron.d/** for the configuration and see what command is being executed.
+>
+**NOTE:** Looking at shell scripts written by other people is a very useful skill. The script for this level is intentionally made easy to read. If you are having problems understanding what it does, try executing it to see the debug information it prints.
 
 
+Well, this was easy enough:
+```bash
+bandit22@bandit:~$ ls /etc/cron.d/
+behemoth4_cleanup  cronjob_bandit22  cronjob_bandit24  leviathan5_cleanup    otw-tmp-dir
+clean_tmp          cronjob_bandit23  e2scrub_all       manpage3_resetpw_job
+bandit22@bandit:~$ ls -la /etc/cron.d/
+total 56
+drwxr-xr-x   2 root root  4096 Sep 27 06:51 .
+drwxr-xr-x 128 root root 12288 Oct 16 14:15 ..
+-rw-r--r--   1 root root   102 Nov  5  2025 .placeholder
+-r--r-----   1 root root    47 Sep 26 21:55 behemoth4_cleanup
+-rw-r--r--   1 root root   127 Sep 27 06:51 clean_tmp
+-rw-r--r--   1 root root   120 Sep 26 21:54 cronjob_bandit22
+-rw-r--r--   1 root root   122 Sep 26 21:54 cronjob_bandit23
+-rw-r--r--   1 root root   120 Sep 26 21:54 cronjob_bandit24
+-rw-r--r--   1 root root   188 Feb 13  2026 e2scrub_all
+-r--r-----   1 root root    48 Sep 26 21:56 leviathan5_cleanup
+-rw-------   1 root root   138 Sep 26 21:56 manpage3_resetpw_job
+-rwx------   1 root root    52 Sep 26 21:58 otw-tmp-dir
+bandit22@bandit:~$ cat /etc/cron.d/cronjob_bandit23
+@reboot bandit23 /usr/bin/cronjob_bandit23.sh  &> /dev/null
+* * * * * bandit23 /usr/bin/cronjob_bandit23.sh  &> /dev/null
+bandit22@bandit:~$ cat /usr/bin/cronjob_bandit23.sh
+#!/bin/bash
+
+myname=$(whoami)
+mytarget=$(echo I am user $myname | md5sum | cut -d ' ' -f 1)
+
+echo "Copying passwordfile /etc/bandit_pass/$myname to /tmp/$mytarget"
+
+cat /etc/bandit_pass/$myname > /tmp/$mytarget
+bandit22@bandit:~$ cat /etc/bandit_pass/bandit23
+cat: /etc/bandit_pass/bandit23: Permission denied
+
+bandit22@bandit:~$ echo I am user bandit23 | md5sum | cut -d ' ' -f 1
+8ca319486bfbbc3663ea0fbe81326349
+bandit22@bandit:~$ cat /tmp/8ca319486bfbbc3663ea0fbe81326349
+<pwd here>
+
+```
+
+> [!tip] Quick Solution
+> The cron script copies the password to `/tmp/<md5hash>`. Run the same md5 command the script uses — but with `bandit23` as the username — to calculate the exact filename:
+> ```bash
+> echo I am user bandit23 | md5sum | cut -d ' ' -f 1
+> cat /tmp/<hash from above>
+> ```
+
+---
+## **Level 24**
+>A program is running automatically at regular intervals from **cron**, the time-based job scheduler. Look in **/etc/cron.d/** for the configuration and see what command is being executed.
+>
+>**NOTE:** This level requires you to create your own first shell-script. This is a very big step and you should be proud of yourself when you beat this level!
+>
+>**NOTE 2:** Keep in mind that your shell script is removed once executed, so you may want to keep a copy around…
+
+Well, this seems complex enough
+So like after running a few commands, i was lead to this file
+```bash
+cat /usr/bin/cronjob_bandit24.sh
+#!/bin/bash
+
+shopt -s nullglob
+
+myname=$(whoami)
+
+cd /var/spool/"$myname"/foo || exit
+echo "Executing and deleting all scripts in /var/spool/$myname/foo:"
+for i in * .*;
+do
+    if [ "$i" != "." ] && [ "$i" != ".." ];
+    then
+        echo "Handling $i"
+        owner="$(stat --format "%U" "./$i")"
+        if [ "${owner}" = "bandit23" ] && [ -f "$i" ]; then
+            timeout -s 9 60 "./$i"
+        fi
+        rm -rf "./$i"
+    fi
+done
+```
+Apparently rhis makes it so that anything i am able to write into that folder will run with permission from bandit24, but i am bandit23. So i need it to copy the bandit24 password . Thats why we need to make our own script.
+So the script should move the file from bandit_pass/bandit24 into like tmp, so il will start by
+```bash
+bandit23@bandit:/tmp/tmp.v3cDVDD0VA$ echo "cat /etc/bandit_pass/bandit24 > /tmp/tmp.v3cDVDD0VA/pass.txt" > exploit.sh
+bandit23@bandit:/tmp/tmp.v3cDVDD0VA$ chmod +x exploit.sh
+bandit23@bandit:/tmp/tmp.v3cDVDD0VA$ cp exploit.sh /var/spool/bandit24/foo
+bandit23@bandit:/tmp/tmp.v3cDVDD0VA$ la -la
+total 8
+drwxrwxrwx  2 bandit23 bandit23   80 Oct 18 12:00 .
+drwxrwx-wt 75 root     root     1760 Oct 18 12:00 ..
+-rwxrwxr-x  1 bandit23 bandit23   61 Oct 18 11:59 exploit.sh
+-rw-rw-r--  1 bandit24 bandit24   33 Oct 18 12:00 pass.txt
+bandit23@bandit:/tmp/tmp.v3cDVDD0VA$ cat pass.txt
+<pwd here>
+```
+
+So, since the vulnerabiltiy was that any file with owner bandit23 will run with bandit24's permissions. I just copied the bandit24 password file into a pass.txt file in a mktemp -d temp folder and got the command.
+
+> [!tip] Quick Solution
+> Drop-write-wait: create a script that copies the bandit24 password to your temp dir, drop it in `/var/spool/bandit24/foo`, make it executable, then wait a minute for cron to run it:
+> ```bash
+> TMPDIR=$(mktemp -d)
+> echo "cat /etc/bandit_pass/bandit24 > $TMPDIR/pass.txt" > $TMPDIR/exploit.sh
+> chmod +x $TMPDIR/exploit.sh
+> chmod o+w $TMPDIR           # make dir writable so bandit24 can write pass.txt
+> cp $TMPDIR/exploit.sh /var/spool/bandit24/foo/
+> # wait ~60 seconds, then:
+> cat $TMPDIR/pass.txt
+> ```
+
+---
+## **Level 25**
+>A daemon is listening on port 30002 and will give you the password for bandit25 if given the password for bandit24 and a secret numeric 4-digit pincode. There is no way to retrieve the pincode except by going through all of the 10000 combinations, called brute-forcing.  
+You do not need to create new connections each time
+
+so like there should be a readymade linux command to bruteforce all possible 10000 combinations somenow, and i just give it the password for bandit24, or do i create a script ?
+Well script it is:
+
+```bash
+bandit24@bandit:~$ for i in {0000..9999}; do
+>     echo "<old pwd here> $i"
+> done > guesses.txt
+-bash: guesses.txt: Permission denied
+bandit24@bandit:~$ mktemp -d
+/tmp/tmp.HkBB0EXRQ6
+bandit24@bandit:~$ cd /tmp/tmp.HkBB0EXRQ6
+bandit24@bandit:/tmp/tmp.HkBB0EXRQ6$ for i in {0000..9999}; do     echo "hVQMk3lJNsmQ7VF3ubyrNNBom7BOgVXv $i"; done > guesses.txt
+bandit24@bandit:/tmp/tmp.HkBB0EXRQ6$ dir
+guesses.txt
+bandit24@bandit:/tmp/tmp.HkBB0EXRQ6$ cat guesses.txt | nc localhost 30002
+I am the pincode checker for user bandit25. Please enter the password for user bandit24 and the secret pincode on a single line, separated by a space.
+Wrong! Please enter the correct current password and pincode. Try again.
+...............
+Wrong! Please enter the correct current password and pincode. Try again.
+Correct!
+The password of user bandit25 is <pwd here>
+```
+Well i was able to get into the next level.
+
+> [!tip] Quick Solution
+> Generate all 10000 guesses with a bash for loop and pipe the whole file into `nc` in one shot — the daemon handles multiple lines without re-connecting:
+> ```bash
+> TMPDIR=$(mktemp -d) && cd $TMPDIR
+> for i in {0000..9999}; do echo "<bandit24_password> $i"; done > guesses.txt
+> cat guesses.txt | nc localhost 30002 | grep -v Wrong
+> ```
+
+---
+## **Level 26**
+
+> Logging in to bandit26 from bandit25 should be fairly easy… The shell for user bandit26 is not **/bin/bash**, but something else. Find out what it is, how it works and how to break out of it.
+
+> NOTE: if you're a Windows user and typically use Powershell to `ssh` into bandit: Powershell is known to cause issues with the intended solution to this level. You should use command prompt instead.
+
+```bash
+bandit25@bandit:~$ dir
+bandit26.sshkey
+bandit25@bandit:~$ pwd
+/home/bandit25
+bandit25@bandit:~$ cat bandit26.sshkey
+-----BEGIN OPENSSH PRIVATE KEY-----
+-----END OPENSSH PRIVATE KEY-----
+bandit25@bandit:~$ file bandit26.sshkey
+bandit26.sshkey: OpenSSH private key
+bandit25@bandit:~$ ls -la bandit26.sshkey
+-r-------- 1 bandit25 bandit25 2602 Sep 26 21:54 bandit26.sshkey
+bandit25@bandit:~$
+```
+
+Why cant i just use the scp command to get it into my local device and get into as bandit26? and what does it mean by shell for bandit26 is not in /bin/bash what does that mean ?
+Well this means that it runs some text file using more and it will kick me out. And it kicked me out, but doesnot show any text file so i am stuck btw i did all these
+
+```bash
+
+bandit25@bandit:~$ cat /etc/passwd | grep bandit26
+bandit26:x:11026:11026:bandit level 26:/home/bandit26:/usr/bin/showtext
+bandit25@bandit:~$ cat /usr/bin/showtext
+#!/bin/sh
+export TERM=linux
+exec more ~/text.txt
+exit 0
+bandit25@bandit:~$ exit
+logout
+Connection to bandit.labs.overthewire.org closed.
+[user@local ~]$ ssh -i /tmp/bandit26.sshkey -p 2220 bandit26@bandit.labs.overthewire.org
+[user@local ~]$ ssh -i /tmp/bandit26.sshkey -p 2220 bandit26@bandit.labs.overthewire.org
+[user@local ~]$ ssh -i /tmp/bandit26.sshkey -p 2220 bandit26@bandit.labs.overthewire.org
+[user@local ~]$ chmod 600 /tmp/bandit26.sshkey 
+[user@local ~]$ ssh -i /tmp/bandit26.sshkey -p 2220 bandit26@bandit.labs.overthewire.org
+
+
+ | |                   | (_) | |__ \ / /  
+ | |__   __ _ _ __   __| |_| |_   ) / /_  
+ | '_ \ / _` | '_ \ / _` | | __| / / '_ \ 
+ | |_) | (_| | | | | (_| | | |_ / /| (_) |
+ |_.__/ \__,_|_| |_|\__,_|_|\__|____\___/ 
+[user@local ~]$ cat /tmp/bandit26.sshkey 
+-----BEGIN OPENSSH PRIVATE KEY-----
+key here
+-----END OPENSSH PRIVATE KEY-----
+[user@local ~]$ 
+```
+
+So i ran a a few commands and did some trick so ill ask ai to compile them but i fot into next elvel
+
+> [!note] Debugging: Why did I get kicked out instantly? (The "No Text" Issue)  
+> When you log in, the `showtext` script runs `more ~/text.txt`. The text file is very short (only 4-5 lines). If your terminal window is large (e.g., 20+ lines tall), `more` prints the entire file instantly, hits the end, and the script executes `exit 0`. The connection dies before your eyes can even focus on the text. You do not see an error; it just flashes and closes.
+
+> [!tip] Quick Solution & Key Lessons (The "Tiny Window / Vi" Trick)  
+> **1. Force `more` to pause by tricking it into thinking the screen is tiny.**  
+> You must make your terminal window tiny (drag the edge so it's 3-4 lines tall) OR use the `stty` command to force the server to see a tiny screen. (If your GUI prevents shrinking the window enough, `stty rows 2` is the bulletproof method).
+> 
+> **2. Break out of `more` into `vi`.**  
+> When `more` pauses (showing `--More--` or `:`), press the **`v`** key. This tells `more` to open the current file in the `vi` text editor.
+> 
+> **3. Spawn a shell from inside `vi`.**  
+> Once inside `vi`, you can execute shell commands. Type these exact commands (you might not see what you're typing if the window is tiny, but it will work):
+> 
+> vim
+> 
+> :set shell=/bin/bash
+> 
+> _(Press Enter)_
+> 
+> vim
+> 
+> :shell
+> 
+> _(Press Enter)_
+> 
+> **4. Grab the password.**  
+> You now have a bash prompt running as `bandit26`. Resize your terminal back to normal, and run:
+> 
+> bash
+> 
+> cat /etc/bandit_pass/bandit26
+> 
+> **Takeaway:** This is a classic Linux privilege escalation technique. Pagers (`more`, `less`) can often launch text editors (`vi`, `vim`), and text editors can launch shells. Always check [GTFOBins](https://gtfobins.github.io/) for these escape techniques.
+
+---
+## **Level 27**
+>Good job getting a shell! Now hurry and grab the password for bandit27!
+
+Wtf does this mean ??????????????????????
+
+wtf?
+
+> [!tip] Quick Solution
+> Level 27's "objective" is just staying inside `vi` after the Level 26 escape — you should already be in a shell as bandit26. From there, just read the password file:
+> ```bash
+> cat /etc/bandit_pass/bandit27
+> ```
+
+---
+## **Level 28**
+>There is a git repository at `ssh://bandit27-git@bandit.labs.overthewire.org/home/bandit27-git/repo` via the port `2220`. The password for the user `bandit27-git` is the same as for the user `bandit27`.
+
+>From your local machine (not the OverTheWire machine!), clone the repository and find the password for the next level. This needs git installed locally on your machine.
+
+
+Since it wants me to do it on my device, here it is:
+```bash
+git clone ssh://bandit27-git@bandit.labs.overthewire.org:2220/home/bandit27-git/repo
+```
+then i got the repo, so i looked into it with ls -la and found a README and it had the password.
+
+> [!tip] Quick Solution
+> Clone the repo and check the README:
+> ```bash
+> git clone ssh://bandit27-git@bandit.labs.overthewire.org:2220/home/bandit27-git/repo
+> cat repo/README
+> ```
+
+---
+## **Level 28**
+>There is a git repository at `ssh://bandit28-git@bandit.labs.overthewire.org/home/bandit28-git/repo` via the port `2220`. The password for the user `bandit28-git` is the same as for the user `bandit28`.
+
+From your local machine (not the OverTheWire machine!), clone the repository and find the password for the next level. This needs git installed locally on your machine.
+```bash
+dibij@Dibij:~/projects/CyberSecurity-Learning$ git clone ssh://bandit28-git@bandit.labs.overthewire.org:2220/home/bandit28-git/repo
+Cloning into 'repo'...
+                         _                     _ _ _   
+                        | |__   __ _ _ __   __| (_) |_ 
+                        | '_ \ / _` | '_ \ / _` | | __|
+                        | |_) | (_| | | | | (_| | | |_ 
+                        |_.__/ \__,_|_| |_|\__,_|_|\__|
+                                                       
+
+                      This is an OverTheWire game server. 
+            More information on http://www.overthewire.org/wargames
+
+backend: gibson-0
+bandit28-git@bandit.labs.overthewire.org's password: 
+remote: Enumerating objects: 9, done.
+remote: Counting objects: 100% (9/9), done.
+remote: Compressing objects: 100% (6/6), done.
+remote: Total 9 (delta 2), reused 0 (delta 0), pack-reused 0 (from 0)
+Receiving objects: 100% (9/9), done.
+Resolving deltas: 100% (2/2), done.
+dibij@Dibij:~/projects/CyberSecurity-Learning$ ls -la repo
+total 4
+drwxr-xr-x 1 dibij dibij  248 Oct 18 19:29 .
+drwxr-xr-x 1 dibij dibij 4096 Oct 18 19:29 ..
+drwxr-xr-x 1 dibij dibij  448 Oct 18 19:29 .git
+-rwxr-xr-x 1 dibij dibij  111 Oct 18 19:29 README.md
+dibij@Dibij:~/projects/CyberSecurity-Learning/repo$ cat README.md 
+# Bandit Notes
+Some notes for level29 of bandit.
+
+## credentials
+
+- username: bandit29
+- password: xxxxxxxxxx
+
+dibij@Dibij:~/projects/CyberSecurity-Learning/repo$ 
+
+
+```
+now what the fuck is this ??
+well i got the password by running
+```bash
+git log
+```
+in this hash `ad8a5f812f24e793d2657f926f503a2fd1c5e256` i got the pwd.
+
+> [!tip] Quick Solution
+> The README shows a redacted password. Look in the git history — a previous commit may have had the real value:
+> ```bash
+> git log --oneline
+> git show <commit-hash>
+> ```
+
+---
+## **Level 29**
+>There is a git repository at `ssh://bandit29-git@bandit.labs.overthewire.org/home/bandit29-git/repo` via the port `2220`. The password for the user `bandit29-git` is the same as for the user `bandit29`.
+>From your local machine (not the OverTheWire machine!), clone the repository and find the password for the next level. This needs git installed locally on your machine.
+
+Well i again forgot to document, but this time i learned how to use git show and git log and switch between branches and be mindful of git branch and git switch and red herrings and so on...
+
+> [!tip] Quick Solution
+> The password is hidden on a non-default branch. Check all branches and switch:
+> ```bash
+> git branch -a          # list all branches including remotes
+> git switch <branch>    # or: git checkout origin/<branch>
+> git log --oneline      # check commit messages for clues
+> git show <hash>        # inspect a specific commit
+> ```
+
+---
+## **Level 30**
+>There is a git repository at `ssh://bandit30-git@bandit.labs.overthewire.org/home/bandit30-git/repo` via the port `2220`. The password for the user `bandit30-git` is the same as for the user `bandit30`.
+>From your local machine (not the OverTheWire machine!), clone the repository and find the password for the next level. This needs git installed locally on your machine.
+
+well you can aaprently hide secrets in tags too and you can view them by `git tag` and `git show <tag name>`
+
+> [!tip] Quick Solution
+> Secrets can be stashed in git tags (not visible in normal `git log`):
+> ```bash
+> git tag              # list all tags
+> git show <tagname>   # reveal the tag's stored content
+> ```
+
+---
+## **Level 31**
+>There is a git repository at `ssh://bandit31-git@bandit.labs.overthewire.org/home/bandit31-git/repo` via the port `2220`. The password for the user `bandit31-git` is the same as for the user `bandit31`.
+>
+From your local machine (not the OverTheWire machine!), clone the repository and find the password for the next level. This needs git installed locally on your machine.
+
+Again seems like the same thing, and i am gonna learn something new
+
+This asks you to use the -f tag in `git add -f filename` to force a file to be pushed even if its inside .gitignore.
+Well done.
+
+> [!tip] Quick Solution
+> The repo's `.gitignore` blocks the file you need to push. Override it with `-f`:
+> ```bash
+> echo "May I come in?" > key.txt
+> git add -f key.txt
+> git commit -m "send key"
+> git push origin master
+> ```
+
+---
+## **Level 32**
+>After all this `git` stuff, it's time for another escape. Good luck!
+
+Now what thsi fucker mean ??
+it made me write `$0` to get into another shell and work it oout
+
+> [!tip] Quick Solution
+> You're in an "uppercase shell" that converts all input to uppercase, breaking commands. `$0` is a special shell variable that expands to the name of the current shell — typing it runs a new shell, escaping the restriction:
+> ```
+> $0
+> ```
+> You now have a normal shell. From there, read the password and you're done.
+
+---
+
+> [!note] 🎉 BANDIT COMPLETE
+> Finished all 33 Bandit levels (0–32). The whole wargame is done.
 
 ---
 
 ## Current Position
 
-**Last completed:** Bandit Level 20 (setuid binary — `./bandit20-do cat /etc/bandit_pass/bandit20`).
+**Last completed:** Bandit Level 32 — ALL LEVELS COMPLETE ✅
 
-**Currently stuck on:** Level 21.
+**Total levels solved:** 33 (Level 0 through Level 32)
+
+**Bandit is done. Next up:** TryHackMe
 
 **Learning approach:** Attempt each challenge independently before consulting walkthroughs.
 
 **Related sessions:**
+- [[2026-10-18 - Bandit Session 3]] — Session 006 (Levels 21–32: Cron, scripts, brute-force, vi escape, git forensics, $0 shell escape)
 - [[2026-10-17 - Bandit Session 2]] — Session 005 (Levels 15–20: SSL/TLS, nmap port scan, diff -y, .bashrc bypass, setuid)
 - [[2026-10-17 - Bandit - Session]] — Session 004 (SSH keys, chmod 600, scp)
 - [[2026-10-17 - DNS - Session]] — Session 003 (DNS caching, latency, resolvectl)
 - [[2026-10-16 - Cybersecurity Learning Session]] — Session 002 (Bandit 9–13)
+

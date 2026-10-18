@@ -11,9 +11,9 @@ type: dashboard
 
 ## Current Focus & Status
 
-- **Active Tracks:** OverTheWire Bandit + Networking (DNS) + upcoming TryHackMe
-- **Current Position:** Bandit Level 20 solved ✅ — Stuck on Level 21 (listener puzzle)
-- **Next Action:** Figure out Level 21 — re-read the challenge description carefully 🤔
+- **Active Tracks:** TryHackMe (starting) + Networking fundamentals
+- **Current Position:** OverTheWire Bandit ✅ COMPLETE — all 33 levels done (0–32)
+- **Next Action:** Start TryHackMe — pick a beginner room to kick things off
 - **Credentials:** Securely kept in [[Bandit Passwords]] (local-only / Git-ignored)
 
 ---
@@ -21,7 +21,7 @@ type: dashboard
 ## Quick Navigation
 
 ### 🧪 Labs & Practice
-- [[OverTheWire Bandit]] — Full level-by-level walkthrough (Levels 0–20+)
+- [[OverTheWire Bandit]] — Full level-by-level walkthrough ✅ ALL 33 LEVELS COMPLETE (0–32)
 - [[Lab Tracker]] — High-level progress tracker across all platforms
 - [[Linux CLI Utilities]] — Quick reference for `grep`, `tar`, `xxd`, `ssh`, `scp`, `nc`, `ncat`, `openssl`, `ss`, `nmap`, `diff`
 
@@ -34,6 +34,7 @@ type: dashboard
 
 ### 🗓️ Journal & Baseline
 - [[Starting Point]] — Baseline self-assessment & 30/90-day goals
+- [[2026-10-18 - Bandit Session 3]] — Session 006 log (Bandit 21–32: Cron, exploit scripts, brute force, vi escape, git forensics, $0 shell escape)
 - [[2026-10-17 - Bandit Session 2]] — Session 005 log (Bandit 15–20: SSL/TLS, nmap, diff -y, setuid)
 - [[2026-10-17 - Bandit - Session]] — Session 004 log (Bandit 14, SSH keys, chmod 600, scp)
 - [[2026-10-17 - DNS - Session]] — Session 003 log (DNS caching, latency, resolvectl)
@@ -52,7 +53,7 @@ type: dashboard
 - [x] Standard I/O redirection & piping
 - [x] Text manipulation (`grep`, `sort`, `uniq`, `strings`, `tr`)
 - [x] Archive extraction & decompression (`tar`, `gzip`, `bzip2`, `xxd`)
-- [ ] Users, permissions, and SSH keys (Bandit 13–17)
+- [x] Users, permissions, and SSH keys (Bandit 13–17)
 - [x] Networking fundamentals & port inspection
 - [ ] HTTP and web architecture
 

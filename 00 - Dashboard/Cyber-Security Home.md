@@ -11,9 +11,9 @@ type: dashboard
 
 ## Current Focus & Status
 
-- **Active Tracks:** TryHackMe (starting) + Networking fundamentals
-- **Current Position:** OverTheWire Bandit ✅ COMPLETE — all 33 levels done (0–32)
-- **Next Action:** Start TryHackMe — pick a beginner room to kick things off
+- **Active Tracks:** PortSwigger Web Security Academy (Cross-Site Scripting) + Web Fundamentals
+- **Current Position:** Bandit ✅ COMPLETE (0–32); PortSwigger Lab 1 solved, Lab 2 in progress
+- **Next Action:** Solve PortSwigger Lab 2 (Stored XSS into HTML context with nothing encoded)
 - **Credentials:** Securely kept in [[Bandit Passwords]] (local-only / Git-ignored)
 
 ---
@@ -21,6 +21,7 @@ type: dashboard
 ## Quick Navigation
 
 ### 🧪 Labs & Practice
+- [[PortSwigger]] — Web Security Academy walkthrough & lab notes (Active)
 - [[OverTheWire Bandit]] — Full level-by-level walkthrough ✅ ALL 33 LEVELS COMPLETE (0–32)
 - [[Lab Tracker]] — High-level progress tracker across all platforms
 - [[Linux CLI Utilities]] — Quick reference for `grep`, `tar`, `xxd`, `ssh`, `scp`, `nc`, `ncat`, `openssl`, `ss`, `nmap`, `diff`
@@ -31,9 +32,13 @@ type: dashboard
 - [[DNS]] — Domain name resolution & nameserver hierarchy
 - [[Network Path]] — How DNS queries travel & where caching happens
 - [[HTTP Fundamentals]] — Methods, headers, status codes, and request/response flow
+- [[Reflected XSS]] — Non-persistent script injection & browser execution
+- [[Stored XSS]] — Persistent database-backed injection
+- [[DOM-Based XSS]] — Client-side sources and sinks
 
 ### 🗓️ Journal & Baseline
 - [[Starting Point]] — Baseline self-assessment & 30/90-day goals
+- [[2026-10-19 - PortSwigger XSS Session]] — Session 007 log (PortSwigger kickoff, XSS types, Lab 1 solved)
 - [[2026-10-18 - Bandit Session 3]] — Session 006 log (Bandit 21–32: Cron, exploit scripts, brute force, vi escape, git forensics, $0 shell escape)
 - [[2026-10-17 - Bandit Session 2]] — Session 005 log (Bandit 15–20: SSL/TLS, nmap, diff -y, setuid)
 - [[2026-10-17 - Bandit - Session]] — Session 004 log (Bandit 14, SSH keys, chmod 600, scp)
@@ -57,16 +62,16 @@ type: dashboard
 - [x] Networking fundamentals & port inspection
 - [ ] HTTP and web architecture
 
-### Phase 2: Web Security (Upcoming)
+### Phase 2: Web Security (In Progress)
 - [ ] SQL Injection
 - [ ] Authentication & session vulnerabilities
 - [ ] Access control & authorization bypass
-- [ ] Cross-site scripting (XSS)
+- [/] Cross-site scripting (XSS) — Lab 1 solved, Lab 2 next
 
 ### Phase 3: Practical Tools & Testing
 - [ ] Burp Suite & proxy workflows
 - [ ] Nmap network scanning
-- [ ] PortSwigger Web Security Academy labs
+- [/] PortSwigger Web Security Academy labs (Active)
 
 ### Phase 4: Applied Projects & Audits
 - [ ] Personal project security review

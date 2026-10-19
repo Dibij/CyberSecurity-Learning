@@ -1963,7 +1963,7 @@ it made me write `$0` to get into another shell and work it oout
 
 **Total levels solved:** 33 (Level 0 through Level 32)
 
-**Bandit is done. Next up:** TryHackMe
+**Bandit is done. Next up:** [[PortSwigger]] Web Security Academy (XSS track)
 
 **Learning approach:** Attempt each challenge independently before consulting walkthroughs.
 

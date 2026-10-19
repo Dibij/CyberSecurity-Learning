@@ -82,7 +82,12 @@ Encountered a restricted shell that converted every command to uppercase. Escape
 
 Bandit is officially complete! 33 levels down. Started from basic `ls` and `cd`, worked through streams, text manipulation, compression pipelines, SSH keys, SSL/TLS, port scanning, cron vulnerabilities, custom script exploits, brute-forcing, pager breakouts, git internals, and restricted shell escapes.
 
-Huge confidence boost. Ready to move onto TryHackMe next.
+Huge confidence boost. Ready to move onto PortSwigger next.
+
+---
+## **Next Steps**
+Look into Portswigger on oct 19 <3
+
 
 ---
 

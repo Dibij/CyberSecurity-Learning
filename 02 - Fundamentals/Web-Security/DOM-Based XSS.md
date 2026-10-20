@@ -84,6 +84,18 @@ https://example.com/search.html?q=<img src=x onerror=alert(document.domain)>
 
 ---
 
+## Practical Sink Gotchas & Exploitation Rules
+
+From hands-on testing across [[PortSwigger]] labs:
+
+| Sink Context | Common Gotcha | Working Bypass Technique |
+|---|---|---|
+| **`document.write` inside attributes** | Input lands inside an existing tag attribute (e.g. `src="...query..."`). Plain `<script>` gets stuck inside the attribute string. | Break out of the attribute and tag first using `">` before injecting tags: `"><script>alert(1)</script>`. |
+| **`innerHTML`** | HTML5 specification explicitly forbids `<script>` tags injected via `innerHTML` from executing. | Use HTML tags with inline event handlers that fire automatically: `<img src=x onerror="alert(1)">` or `<svg onload=alert(1)>`. |
+| **Anchor `href` (jQuery / DOM)** | Input sets an `<a>` tag's `href` attribute. HTML markup like `<script>` or `"><script>` breaks the URL or fails to execute. | Use the **`javascript:` pseudo-protocol**: `javascript:alert(document.cookie)`. When clicked, the browser executes the script in the page origin context. |
+
+---
+
 ## Defense & Remediation
 
 1. **Use Safe Sinks:**

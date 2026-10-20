@@ -14,6 +14,7 @@ aliases:
   - Web Security Academy
 ---
 
+
 # **PortSwigger Web Security Academy**
 
 Related notes:
@@ -98,9 +99,163 @@ Unlike reflected XSS where the payload lives in the URL, stored XSS gets saved p
 Fill out the required comment fields (Name, Email, Website), submit, and open the post to trigger.
 
 ---
+### **Lab 3: DOM XSS in `document.write` sink using source `location.search`**
+
+>This lab contains a DOM-based cross-site scripting vulnerability in the search query tracking functionality. It uses the JavaScript `document.write` function, which writes data out to the page. The `document.write` function is called with data from `location.search`, which you can control using the website URL.
+>
+To solve this lab, perform a cross-site scripting attack that calls the `alert` function.
+
+I honestly dont understand what this wants me to do. so i added this part 
+`search.location?q=<alert(document.domain)>` after the site url for the lab. But it just lead me to wahtever, and shows just *"Not Found"*. Do i inspect source? and write code in the terminal given by the broswer? or what ? ? 
+
+Then i tried this
+```
+https://0a89000403a435f0835a3c0d005b00a2.web-security-academy.net/search.location?q=%3Calert(document.write())%3E
+```
+This didnot work and neither did  this
+```
+https://0a89000403a435f0835a3c0d005b00a2.web-security-academy.net/document.write(alert)
+```
+Apparently the goal is not to invent new url paths, but to modify existing paths.
+And the vulnerabiltiy this site has is that its location.search allows untested string to be passed directly to the server. I still dont know enough to epxlain properly but just the search bar on this lab lets me access things i should not be able to.
+Ok i solved the lab. I got help from claude, but what happened was, apparently i needed to close the image tag then add my script like this
+```html
+"><script>alert(1)</script>
+```
+And that solved the issue.
+I need to be able to findout about these vulnerabalities and actually work on my own, instead of takign help from ai
+
+> [!tip] Quick Solution & Technical Breakdown
+> **Why `"><script>alert(1)</script>` works:**
+> If you inspect the page source, you'll find this tracking script:
+> ```javascript
+> function trackSearch(query) {
+>     document.write('<img src="/resources/images/tracker.gif?searchTerms=' + query + '">');
+> }
+> var query = (new URLSearchParams(window.location.search)).get('search');
+> if(query) {
+>     trackSearch(query);
+> }
+> ```
+> 1. The input `query` is placed directly inside the `src="..."` attribute of an `<img>` tag written by `document.write()`.
+> 2. The leading `"` breaks out of the `src="..."` attribute string.
+> 3. The `>` closes the `<img>` tag early: `<img src="/resources/images/tracker.gif?searchTerms=">`.
+> 4. The following `<script>alert(1)</script>` is written to the DOM as its own independent HTML element and executes.
+
+---
+### **Lab 4: DOM XSS in `innerHTML` sink using source `location.search`**
+ 
+> This lab contains a DOM-based cross-site scripting vulnerability in the search blog functionality. It uses an `innerHTML` assignment, which changes the HTML contents of a `div` element, using data from `location.search`.
+>
+> To solve this lab, perform a cross-site scripting attack that calls the `alert` function.
+
+i dont understand what it means by innerHTML assignment? i cant find it in the 'Inspect' tab.
+Though i did find one in https://0a5f00fb03e855a280d33a3e00970053.web-security-academy.net/resources/labheader/js/labHeader.js at line 25
+```js
+newWebSocket.onmessage = function (evt) {
+                const labSolved = document.getElementById('notification-labsolved');
+                const keepAliveMsg = evt.data === 'PONG';
+                if (labSolved || keepAliveMsg) {
+                    return;
+                }
+                document.getElementById("academyLabHeader").innerHTML = evt.data;
+                animateLabHeader();
+
+                for (const listener of completedListeners) {
+                    listener();
+                }
+            };
+```
+So we have to modify this ? but i dont know js
+Ok i solved the lab and i "searched" this in the search box
+` <img src=x onerror="alert(1)"> `.
+Main problems are i dont understand what the labs want from me, and second i dunno know how to view for thevulnerabilities
+
+> [!tip] Quick Solution & Technical Breakdown
+> **Why `<script>` fails but `<img ... onerror=...>` works:**
+> If you inspect the page's search script (in the main HTML source, not labHeader.js):
+> ```javascript
+> function doSearchQuery(query) {
+>     document.getElementById('searchMessage').innerHTML = query;
+> }
+> var query = (new URLSearchParams(window.location.search)).get('search');
+> if(query) {
+>     doSearchQuery(query);
+> }
+> ```
+> 1. **The HTML5 spec restriction:** Modern browsers deliberately do not execute `<script>` elements that are added via `element.innerHTML`.
+> 2. **The event-handler bypass:** However, when an `<img>` tag with an invalid `src` is placed into `innerHTML`, the browser parses the element into the DOM, attempts to fetch image `x`, fails, and immediately triggers the `onerror` JavaScript handler:
+>    ```html
+>    <img src=x onerror="alert(1)">
+>    ```
+
+---
+### **Lab 5: DOM XSS in jQuery anchor `href` attribute sink using `location.search` source**
+ 
+> This lab contains a DOM-based cross-site scripting vulnerability in the submit feedback page. It uses the jQuery library's `$` selector function to find an anchor element, and changes its `href` attribute using data from `location.search`.
+>
+> To solve this lab, make the "back" link alert `document.cookie`.
+
+So based on the description, i need to go to submist feedback page first.
+
+So as far as i have done, i have only like searched the search bozes. So how do i change the 'back' link to alert something ?? 
+First i also need to look into what document.cookie is.
+So document.cookie seems to be a source. 
+So in 'Page inspect ' ill search for document.cookie.
+
+but it shows nothing for `document.cookie` ? 
+
+But i was able to find `'back'` link. and it seems to be just `href="/"`
+So how do i edit it ?? i doubt i jsut edit the code but this href doesnot take anything so ?? 
+ooh wait
+```js
+   $(function() {
+                                $('#backLink').attr("href", (new URLSearchParams(window.location.search)).get('returnPath'));
+                            });
+```
+i was able to find this. lets explore it.
+so i dont understand js, but it seems like backlink is tied to `window.location.search` i hope that means the search button, but ther's no search page in the lab. so what does this mean ? lemme google it i dont understand this code 
+So apparently this means that 
+**This script allows a webpage to have a dynamic "Back" button or link.**
+means, if i put up a script or a url, in the url box, and click on the 'back' button in this page. It will try to get me to that link, or i could use it to alert for document.cookie. 
+well this 
+```
+https://0a1e00ce0388e48280920dab002800cd.web-security-academy.net/feedback?returnPath=<script>alert(document.cookie)</script>
+```
+did not work. 
+so ?  neither did this work? 
+```
+https://0a1e00ce0388e48280920dab002800cd.web-security-academy.net/%22%3E%3Cscript%3Ealert(document.cookie)%3C/script%3E
+```
+
+Now it makes sense. 
+href wants javascript code, and not url based html code
+so this should work:
+```
+https://0a1e00ce0388e48280920dab002800cd.web-security-academy.net/feedback?returnPath=javascript:alert(document.cookie)
+```
+it worked.
+
+> [!tip] Quick Solution & Technical Breakdown
+> **Why `returnPath=javascript:alert(document.cookie)` works:**
+> 1. The jQuery script extracts `returnPath` from `window.location.search` and sets it directly as the anchor's `href` attribute without protocol validation:
+>    ```javascript
+>    $('#backLink').attr("href", (new URLSearchParams(window.location.search)).get('returnPath'));
+>    ```
+> 2. When an `<a>` tag has `href="javascript:..."`, the browser interprets it using the **`javascript:` pseudo-protocol**.
+> 3. Instead of navigating to a URL or submitting HTML, clicking the "Back" link immediately executes the JavaScript payload inside the page origin context, alerting `document.cookie`.
+
+---
 
 ## Current Status
-- **Last Completed:** Lab 1: Reflected XSS into HTML context with nothing encoded ✅
-- **Next Level / Step:** Lab 2: Stored XSS into HTML context with nothing encoded 🔄
+- **Completed Labs:**
+  - Lab 1: Reflected XSS into HTML context with nothing encoded ✅
+  - Lab 3: DOM XSS in `document.write` sink using source `location.search` ✅
+  - Lab 4: DOM XSS in `innerHTML` sink using source `location.search` ✅
+  - Lab 5: DOM XSS in jQuery anchor `href` attribute sink using `location.search` source ✅
+- **Pending / Next:**
+  - Lab 2: Stored XSS into HTML context with nothing encoded 🔄
 - **Related Sessions:**
-  - [[2026-10-19 - PortSwigger XSS Session]] — Session 007
+  - [[2026-10-20 - PortSwigger DOM XSS Session]] — Session 008 (DOM sinks: document.write, innerHTML, jQuery href)
+  - [[2026-10-19 - PortSwigger XSS Session]] — Session 007 (Reflected XSS kickoff)
+

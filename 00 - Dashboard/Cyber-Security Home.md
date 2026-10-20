@@ -12,7 +12,7 @@ type: dashboard
 ## Current Focus & Status
 
 - **Active Tracks:** PortSwigger Web Security Academy (Cross-Site Scripting) + Web Fundamentals
-- **Current Position:** Bandit ✅ COMPLETE (0–32); PortSwigger Lab 1 solved, Lab 2 in progress
+- **Current Position:** Bandit ✅ COMPLETE (0–32); PortSwigger Labs 1, 3, 4, 5 solved (Lab 2 queued)
 - **Next Action:** Solve PortSwigger Lab 2 (Stored XSS into HTML context with nothing encoded)
 - **Credentials:** Securely kept in [[Bandit Passwords]] (local-only / Git-ignored)
 
@@ -38,6 +38,7 @@ type: dashboard
 
 ### 🗓️ Journal & Baseline
 - [[Starting Point]] — Baseline self-assessment & 30/90-day goals
+- [[2026-10-20 - PortSwigger DOM XSS Session]] — Session 008 log (DOM XSS: document.write, innerHTML, jQuery href; Labs 3–5 solved)
 - [[2026-10-19 - PortSwigger XSS Session]] — Session 007 log (PortSwigger kickoff, XSS types, Lab 1 solved)
 - [[2026-10-18 - Bandit Session 3]] — Session 006 log (Bandit 21–32: Cron, exploit scripts, brute force, vi escape, git forensics, $0 shell escape)
 - [[2026-10-17 - Bandit Session 2]] — Session 005 log (Bandit 15–20: SSL/TLS, nmap, diff -y, setuid)

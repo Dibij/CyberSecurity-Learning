@@ -36,6 +36,10 @@ type: dashboard
 - [[Stored XSS]] — Persistent database-backed injection
 - [[DOM-Based XSS]] — Client-side sources and sinks
 
+### 🧠 Recall & Review
+- [[Review Hub]] — automatic question bank, spaced repetition, foldable review notes
+- Due now: `python3 .quiz/quiz.py` · Stats: `--stats` · Obsidian note: `--note`
+
 ### 🗓️ Journal & Baseline
 - [[Starting Point]] — Baseline self-assessment & 30/90-day goals
 - [[2026-10-20 - PortSwigger DOM XSS Session]] — Session 008 log (DOM XSS: document.write, innerHTML, jQuery href; Labs 3–5 solved)

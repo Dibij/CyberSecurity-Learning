@@ -1,0 +1,48 @@
+{
+  "db_path": ".quiz/quiz.db",
+  "ollama": {
+    "url": "http://127.0.0.1:11434",
+    "model": "gemma4:31b-cloud",
+    "timeout": 600
+  },
+  "generation": {
+    "chunk_chars": 2400,
+    "cards_per_chunk": 4,
+    "max_cards_per_note": 14,
+    "temperature": 0.3,
+    "num_ctx": 4096,
+    "num_predict": 900
+  },
+  "ingest": {
+    "include_dirs": [
+      "01 - Journal",
+      "02 - Fundamentals",
+      "03 - Tools",
+      "04 - Labs and Experiments",
+      "05 - Projects"
+    ],
+    "exclude_globs": [
+      "06 - Templates/*",
+      "00 - Dashboard/*",
+      "07 - Review/*",
+      "_secrets/*",
+      "README.md",
+      "**/README.md"
+    ],
+    "settle_seconds": 15,
+    "min_chars": 350
+  },
+  "srs": {
+    "intervals_days": [
+      0,
+      1,
+      3,
+      7,
+      16,
+      35
+    ],
+    "max_box": 5,
+    "again_minutes": 10,
+    "default_count": 10
+  }
+}

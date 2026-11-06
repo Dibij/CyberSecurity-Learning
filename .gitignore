@@ -29,3 +29,9 @@ env/
 __pycache__/
 *.pyc
 node_modules/
+
+# Question bank runtime data
+.quiz/quiz.db*
+.quiz/logs/
+.quiz/.ingest.lock
+.quiz/__pycache__/

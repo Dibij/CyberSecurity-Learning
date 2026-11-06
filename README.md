@@ -22,6 +22,8 @@ Built as an **Obsidian** vault with a low-friction, structured learning flow.
 - **`04 - Labs and Experiments/`**: Hands-on challenge writeups, CTF walkthroughs, and progress trackers.
 - **`05 - Projects/`**: Applied personal projects (home lab setups, server hardening, security audits).
 - **`06 - Templates/`**: Minimal templates for taking notes without friction.
+- **`07 - Review/`**: Recall workflow and generated review notes ([Review Hub](07%20-%20Review/Review%20Hub.md)).
+- **`.quiz/`**: Question-bank engine (SQLite + a small cron watcher). Runtime data is Git-ignored.
 - **`_secrets/`** *(Git-ignored)*: Passwords, tokens, and flags kept strictly local.
 
 > 🔒 **Security Notice:** All wargame passwords, flags, and sensitive credentials are kept strictly out of Git version control via `.gitignore`.

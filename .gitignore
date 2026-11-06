@@ -18,3 +18,14 @@ _secrets/
 *.key
 .env
 03 - Tools/note_file_OTW.md
+
+# Safety ignores for migration
+.env.*
+!.env.example
+*.env
+venv/
+.venv/
+env/
+__pycache__/
+*.pyc
+node_modules/

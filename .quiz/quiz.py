@@ -21,6 +21,19 @@ GRADES = {
     "easy": "easy",
 }
 
+GRADE_HELP = """
+How to grade (grade difficulty, not just correctness):
+
+  a  again   You blanked or were wrong. Card returns in 10 minutes.
+  h  hard    You got there late, needed a hint, or guessed. Back tomorrow.
+  g  good    You recalled it correctly. Interval grows: 1 → 3 → 7 → 16 → 35 days.
+  e  easy    Instant, no hesitation. Skips two boxes.
+  s  skip    Don't touch the schedule.
+  q  quit    Save what you've done and stop.
+
+Be honest: a card you "sort of" knew is a hard, not a good.
+"""
+
 
 def local_time(value: str | None) -> str:
     dt = qg.parse_iso(value)
@@ -67,6 +80,10 @@ def print_header(index: int, total: int, card: sqlite3.Row) -> None:
 
 def run_quiz(con: sqlite3.Connection, cards: list[sqlite3.Row]) -> int:
     answered = 0
+    print(
+        "grade: a=again · h=hard · g=good · e=easy · s=skip · q=quit"
+        "   (type ? at the prompt for help)\n"
+    )
     for index, card in enumerate(cards, start=1):
         print_header(index, len(cards), card)
         try:
@@ -83,10 +100,13 @@ def run_quiz(con: sqlite3.Connection, cards: list[sqlite3.Row]) -> int:
 
         while True:
             try:
-                raw = input("grade  [a]gain  [h]ard  [g]ood  [e]asy  [s]kip  [q]uit > ")
+                raw = input("grade  [a]gain  [h]ard  [g]ood  [e]asy  [s]kip  [q]uit  (? help) > ")
             except (EOFError, KeyboardInterrupt):
                 raw = "q"
             raw = raw.strip().lower()
+            if raw == "?":
+                print(GRADE_HELP)
+                continue
             if raw == "q":
                 print("\nstopped early.")
                 break
@@ -94,7 +114,7 @@ def run_quiz(con: sqlite3.Connection, cards: list[sqlite3.Row]) -> int:
                 break
             grade = GRADES.get(raw)
             if not grade:
-                print("  enter a, h, g, e, s or q")
+                print("  enter a, h, g, e, s, q, or ? for help")
                 continue
             new_box, due = qg.apply_grade(card["box"], grade)
             now = qg.iso(qg.now_utc())
